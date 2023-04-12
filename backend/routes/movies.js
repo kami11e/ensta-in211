@@ -29,9 +29,18 @@ router.post('/news', function (req, res) {
     // });
     const newMovie = movieRepository.create({
       // id: req.body.id,
-      titre: req.body.titre,
-      date: req.body.date,
-      posterurl: req.body.posterurl,
+      titre:req.body.title,
+      langue:req.body.original_language,
+      mvid:req.body.id,
+      date:req.body.release_date,
+      posterurl:req.body.poster_path,
+      backdroprul:req.body.backdrop_path,
+      popularity:req.body.popularity,
+      votes:req.body.vote_count,
+      vote_avg:req.body.vote_average,
+      adult:req.body.adult,
+      overview:req.body.overview,
+      titre_origin:req.body.original_title
     });
   
     movieRepository
@@ -43,7 +52,7 @@ router.post('/news', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `User with id "${newMovie.id}" and titre "${newMovie.titre}" already exists`,
+          message: `User with id "${newMovie.mvid}" and titre "${newMovie.titre}" already exists`,
         });
       } else {
         res.status(500).json({ message: 'Error while creating the movie' });

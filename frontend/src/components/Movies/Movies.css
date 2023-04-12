@@ -1,24 +1,26 @@
-.Movie-row{
-  display: flex ;
+.Movie-row {
+  display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
+  align-items: center;
   /* height: 10px; */
 }
 
-.col{
-  display:flex;
+.col {
+  display: flex;
   flex: 1;
   /* font-size: 14px; */
-  padding:8px 0;
+  padding: 8px 0;
   flex-shrink: 3;
-  align-items: center;
+  align-items: self-start;
+  width: 300px;
+}
+
+.img {
   width: 200px;
 }
-.img{
-  width: 100px;
+
+
+.movies-loading-error> :not(:last-child) {
+  margin-right: 10px;
 }
-
-
-.movies-loading-error > :not(:last-child) {
-    margin-right: 10px;
-  }
