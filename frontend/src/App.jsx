@@ -7,6 +7,7 @@ import { Root } from './components/Root/Root';
 import Counter from './pages/Counter/Counter';
 import Users from './pages/Users/Users';
 import Films from './pages/Films/Films';
+import FilmDetail from './pages/FilmDetail/FilmDetail';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="users" element={<Users />} />
         <Route path="about" element={<About />} />
         <Route path="films" element={<Films />}/>
+        <Route path="filmpage/:mvid" element={<FilmDetail />}/>
       </Routes>
     </Root>
   );

@@ -5,8 +5,8 @@ const Movie = new typeorm.EntitySchema({
   columns: {
     id: {
       primary: true,
-      generated: 'uuid',
-      type: String
+      type: 'integer',
+      unique: true
     },
     titre: {
       type: String,
@@ -16,10 +16,6 @@ const Movie = new typeorm.EntitySchema({
       type: String,
       default: null,
       unique:false,
-    },
-    mvid:{
-      type: 'integer',
-      unique: true
     },
     date: { 
       type: String,

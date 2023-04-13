@@ -5,8 +5,8 @@ const User = new typeorm.EntitySchema({
   columns: {
     id: {
       primary: true,
-      generated: 'uuid',
-      type: String,
+      type: 'integer',
+      generated: 'increment'
     },
     email: {
       type: String,

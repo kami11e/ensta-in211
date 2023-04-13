@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './Movies.css';
 // import { Fragment } from 'react';
 // import { createConnection } from './chat.js';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 const api_key = 'a0a7e40dc8162ed7e37aa2fc97db5654';
 const FILE_PATH = 'https://image.tmdb.org/t/p/w200';
@@ -45,7 +46,7 @@ function Movies() {
         </div>
         {movies.map((film) => (
           <div class="Movie-row" key={film.title}>
-            <div class="col">{film.title}</div>
+            <div class="col"><Link className="FilmLink" to={`/filmpage/${film.id}`}>{film.title}</Link></div>
             <div class="col">{film.release_date}</div>
             <div class="col">
               <img class="img" src={FILE_PATH + film.poster_path} alt="" />

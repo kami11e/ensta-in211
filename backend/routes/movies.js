@@ -4,20 +4,32 @@ import Movie from '../entities/movie.js';
 
 const router = express.Router();
 
-function routeCallback(req, res){
-    // console.log("0000");
-    // res.json({ movies: [] });
-    appDataSource
+
+
+
+
+router.get("/searchID/:movieId", function(req, res){
+  console.log(req.params.movieId )
+  appDataSource
     .getRepository(Movie)
-    .find({})
-    .then(function (movies) {
-      res.json({ movies: movies });
+    .find({where:{id: req.params.movieId} })
+    .then(function (movie) {
+      console.log(movie);
+      res.json({ movie: movie });
+    })
+    .catch(function () {
+      res.status(500).json({ message: 'Error while searching the movie' });
     });
+});
 
-}
-
-router.get("/", routeCallback);
-
+router.get("/GetAll", function(req, res){
+  appDataSource
+  .getRepository(Movie)
+  .find({})
+  .then(function (movies) {
+    res.json({ movies: movies });
+  });  
+});
 
 router.post('/news', function (req, res) {
     const movieRepository = appDataSource.getRepository(Movie);
@@ -28,10 +40,10 @@ router.post('/news', function (req, res) {
     //   posterurl: req.body.posterurl,
     // });
     const newMovie = movieRepository.create({
-      // id: req.body.id,
+      id: req.body.id,
       titre:req.body.title,
       langue:req.body.original_language,
-      mvid:req.body.id,
+      // mvid:req.body.id,
       date:req.body.release_date,
       posterurl:req.body.poster_path,
       backdroprul:req.body.backdrop_path,
