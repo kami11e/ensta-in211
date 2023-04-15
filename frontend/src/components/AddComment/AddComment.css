@@ -1,20 +1,7 @@
-.user-form > :not(:last-child) {
-    margin-right: 10px;
-  }
-  
-  .user-input {
-    padding: 5px;
-  }
-  
-  .user-button {
-    cursor: pointer;
-    padding: 5px;
-  }
-  
-.film-search-success{
-    color: green;
+.add-comment{
+  flex-basis: auto;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-.film-search-success{
-    color: red;
-}
+

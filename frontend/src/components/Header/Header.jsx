@@ -23,6 +23,10 @@ const Header = () => {
       <Link className="Link" to="/films">
         Films
       </Link>
+      <div>|</div>
+      <Link className="Link" to="/Login">
+        Login
+      </Link>
     </div>
   );
 };

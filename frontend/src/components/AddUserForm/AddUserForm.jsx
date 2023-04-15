@@ -6,6 +6,7 @@ const DEFAULT_FORM_VALUES = {
   email: '',
   firstname: '',
   lastname: '',
+  password:'',
 };
 
 const useSaveUser = () => {
@@ -28,6 +29,12 @@ const useSaveUser = () => {
 
       return;
     }
+    if (formValues.password === '') {
+      console.error('Missing password, this field is required');
+
+      return;
+    }
+
 
     axios
       .post(`${import.meta.env.VITE_BACKDEND_URL}/users/new`, formValues)
@@ -77,6 +84,14 @@ function AddUserForm() {
           value={formValues.lastname}
           onChange={(event) =>
             setFormValues({ ...formValues, lastname: event.target.value })
+          }
+        />
+        <input
+          className="add-user-input"
+          placeholder="password"
+          value={formValues.password}
+          onChange={(event) =>
+            setFormValues({ ...formValues, password: event.target.value })
           }
         />
         <button className="add-user-button" type="submit">

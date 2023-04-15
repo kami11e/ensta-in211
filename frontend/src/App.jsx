@@ -8,6 +8,7 @@ import Counter from './pages/Counter/Counter';
 import Users from './pages/Users/Users';
 import Films from './pages/Films/Films';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
+import Login from './components/Login/Login';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="films" element={<Films />}/>
         <Route path="filmpage/:mvid" element={<FilmDetail />}/>
+        <Route path="login" element={<Login />}/>
       </Routes>
     </Root>
   );

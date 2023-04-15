@@ -19,12 +19,56 @@ router.post('/new', function (req, res) {
     email: req.body.email,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
+    password: req.body.password,
   });
 
   userRepository
     .insert(newUser)
     .then(function (newDocument) {
       res.status(201).json(newDocument);
+    })
+    .catch(function (error) {
+      console.error(error);
+      if (error.code === '23505') {
+        res.status(400).json({
+          message: `User with email "${newUser.email}" already exists`,
+        });
+      } else {
+        res.status(500).json({ message: 'Error while creating the user' });
+      }
+    });
+});
+
+router.post('/login', function (req, res) {
+
+  // const email = req.body.usermail;
+  // const password = req.body.password;
+
+  appDataSource
+    .getRepository(User)
+    .find({where:{email:req.body.usermail}})
+    .then(function (result) {
+      // res.status(201).json(newDocument);
+      console.log(result[0])
+      if(result[0].password === req.body.password){
+        // console.log("password verified");
+        res.status(202).json({
+          message: "Connected to server."
+        });
+        appDataSource
+          .createQueryBuilder()
+          .update(User)
+          .set({
+              loginStatus: true
+          })
+          .where("email = :email", { email: req.body.usermail })
+          .execute()
+      }else{
+        // console.log("not verified");
+        res.status(501).json({
+          message: "Incorrect Password."
+        });
+      }
     })
     .catch(function (error) {
       console.error(error);
