@@ -20,6 +20,7 @@ router.post('/new', function (req, res) {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     password: req.body.password,
+    name: req.body.name,
   });
 
   userRepository
@@ -53,7 +54,11 @@ router.post('/login', function (req, res) {
       if(result[0].password === req.body.password){
         // console.log("password verified");
         res.status(202).json({
-          message: "Connected to server."
+          message: "Authentication sucess.",
+          uid: result[0].id,
+          firstname: result[0].firstname,
+          lastname:result[0].lastname,
+          name:result[0].name,
         });
         appDataSource
           .createQueryBuilder()

@@ -12,6 +12,10 @@ const User = new typeorm.EntitySchema({
       type: String,
       unique: true,
     },
+    name:{
+      type:String,
+      default:"momo"
+    },
     firstname: { type: String },
     lastname: { type: String },
     password:{

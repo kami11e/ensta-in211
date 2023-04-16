@@ -1,14 +1,17 @@
 // login.js
 import logo from './logo.svg';
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import './Login.css'
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
+ 
 //    import {List,InputItem,WingBlank,WhiteSpace, Button} from 'antd-mobile'
 //    import Logo from '../../components/logo/logo'
 const DEFAULT_VALUES = {
     usermail: '',
     password: '',
 };
+
 const useLogin = () => {
     const [loginError, setLoginError] = useState(null);
     const [loginSuccess, setLoginSuccess] = useState(null);
@@ -27,9 +30,22 @@ const useLogin = () => {
         }
         axios
             .post(`${import.meta.env.VITE_BACKDEND_URL}/users/login`, loginParams)
-            .then(() => {
+            .then((response) => {
                 displayLoginSuccessMessage();
                 setLoginParams(DEFAULT_VALUES);
+                // const navigate= useNavigate();
+                // useEffect(()=>{
+                //     setTimeout(()=>{
+                //         navigate('/films', {replace:true});
+                //     }, 3000);
+                // }, []);
+                localStorage.setItem("userMail",loginParams.usermail);
+                localStorage.setItem("uid", response.data.uid);
+                localStorage.setItem("isLogin", true);
+                localStorage.setItem("name", response.data.name);
+
+                console.log(response);
+                window.location.href=`/user`;
             })
             .catch((error) => {
                 setLoginError('An error occured while logging in.');
@@ -38,6 +54,8 @@ const useLogin = () => {
     };
     return { login, loginError, loginSuccess };
 }
+
+
 function Login() {
     const [loginParams, setLoginParams] = useState(DEFAULT_VALUES);
     const { login, loginError, loginSuccess } = useLogin()

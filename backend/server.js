@@ -4,6 +4,7 @@ import cors from 'cors';
 import usersRouter from './routes/users.js';
 const apiRouter = express.Router();
 import moviesRouter from './routes/movies.js';
+import myListRouter from './routes/mylist.js';
 
 import { routeNotFoundJsonHandler } from './services/routeNotFoundJsonHandler.js';
 import { jsonErrorHandler } from './services/jsonErrorHandler.js';
@@ -28,6 +29,7 @@ appDataSource
     });
     apiRouter.use("/movies", moviesRouter);
     apiRouter.use('/users', usersRouter);
+    apiRouter.use("/mylist", myListRouter);
 
     // Register API router
     app.use('/api', apiRouter);

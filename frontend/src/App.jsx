@@ -9,6 +9,7 @@ import Users from './pages/Users/Users';
 import Films from './pages/Films/Films';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
 import Login from './components/Login/Login';
+import UserSpace from './pages/UserSpace/UserSpace';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="films" element={<Films />}/>
         <Route path="filmpage/:mvid" element={<FilmDetail />}/>
         <Route path="login" element={<Login />}/>
+        <Route path="user" element={<UserSpace />}/>
       </Routes>
     </Root>
   );
