@@ -2,6 +2,7 @@ import express from 'express';
 import { appDataSource } from '../datasource.js';
 import User from '../entities/user.js';
 import MyList from '../entities/usermylist.js';
+import { verifyJWT } from '../helpers/utils.js';
 
 const router = express.Router();
 
@@ -18,25 +19,37 @@ router.post('/new', function (req, res) {
   const userRepository = appDataSource.getRepository(User);
   const myListRepository = appDataSource.getRepository(MyList);
   console.log(req);
+  const token = req.headers.token;
+  let verifiedtoken;
+  try {
+    console.log("-------------------------------");
+    console.log(token);
+    verifiedtoken = verifyJWT(token);
+    
+  } catch (error) {
+    console.log(error);
+    res.status(503).json({message:"JWT token invalid"});
+    return;
+  };
   const newLsElem = myListRepository.create({
-    id: req.body.uid.toString(16)+"-"+req.body.mvid.toString(16),
-    user: req.body.uid,
+    id: verifiedtoken.uid.toString(16)+"-"+req.body.mvid.toString(16),
+    user: verifiedtoken.uid,
     movie: req.body.mvid,
   });
   // console.log(newLsElem)
   userRepository
     .find({where:{id:req.body.uid}})
     .then(function (result) {
-      console.log(result)
-      if(result[0].loginStatus===false){
-        res.status(503).json({
-          message: 'Error: user not connected.'
-        });
-        console.log("you are not connected")
-        return;
-      }else{
-        console.log("you are connected")
-      }
+      // console.log(result)
+      // if(result[0].loginStatus===false){
+      //   res.status(503).json({
+      //     message: 'Error: user not connected.'
+      //   });
+      //   console.log("you are not connected")
+      //   return;
+      // }else{
+      //   console.log("you are connected")
+      // }
     })
     .catch(function(error){
       console.error(error);
@@ -64,6 +77,8 @@ router.post('/new', function (req, res) {
       }
     });
 });
+
+
 
 // router.post('/login', function (req, res) {
 

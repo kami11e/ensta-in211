@@ -27,6 +27,10 @@ const Header = () => {
       <Link className="Link" to="/Login">
         Login
       </Link>
+      <div>|</div>
+      <Link className="Link" to="/userspace">
+        Personal Space
+      </Link>
     </div>
   );
 };

@@ -15,3 +15,12 @@
 1. Yu'ang: 1+3
 2. Jia: 2+4
 3. Timothé: 5+6
+
+
+## To generate public/private key pair, use the following command in /backend:
+openssl genrsa  -out private.key 2048
+openssl rsa -in private.key -outform PEM -pubout -out public.key
+
+npm install moment  
+npm install jsonwebtoken 
+npm install bcypt

@@ -11,7 +11,7 @@ const DEFAULT_FORM_VALUES = {
 const useAddMovie = () => {
     const [addMovieError, setAddMovieError] = useState(null);
     const [addMovieSuccess, setAddMovieSuccess] = useState(null);
-    const isLogin = localStorage.getItem("isLogin");
+    // const isLogin = localStorage.getItem("isLogin");
 
     const displayAddMovieSuccessMessage = () => {
         setAddMovieSuccess('Movie successfully added to my list.');
@@ -24,11 +24,11 @@ const useAddMovie = () => {
 
         // setFormValues(Values);
         console.log(formValues);
-        if (!isLogin || formValues.uid === null || formValues.mvid === null) {
-            setAddMovieError('You are not logged in, please login first.')
-            // window.location.href='/login';
-            return;
-        }
+        // if (!isLogin || formValues.uid === null || formValues.mvid === null) {
+        //     setAddMovieError('You are not logged in, please login first.')
+        //     // window.location.href='/login';
+        //     return;
+        // }
         // const Values={
         //   uid: uId,
         //   mvid:mvId
@@ -40,7 +40,11 @@ const useAddMovie = () => {
         setAddMovieError(null);
 
         axios
-            .post(`${import.meta.env.VITE_BACKDEND_URL}/mylist/new`, formValues)
+            .post(`${import.meta.env.VITE_BACKDEND_URL}/mylist/new`, formValues, {
+                headers:{
+                    token: sessionStorage.getItem("JWTtoken"),
+                }
+            })
             .then(() => {
                 displayAddMovieSuccessMessage();
                 setFormValues(DEFAULT_FORM_VALUES);
@@ -59,13 +63,16 @@ const useAddMovie = () => {
 
 function AddFilm2List({mvid}) {
     // const { mvid } = useParams();
-    const uid = localStorage.getItem("uid");
+    // const uid = sessionStorage.getItem("uid");
     const [formValues, setFormValues] = useState(DEFAULT_FORM_VALUES);
     const { addMovie, addMovieError, addMovieSuccess } = useAddMovie();
     const Values = {
-        uid: uid,
+        // uid: uid,
         mvid: mvid
     };
+    if(sessionStorage.getItem("JWTtoken")===null){
+        window.location.href=`/login`;
+    }
     // setFormValues(Values);
     useEffect(()=>{
         setFormValues(Values);

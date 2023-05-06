@@ -22,7 +22,7 @@ function App() {
         <Route path="films" element={<Films />}/>
         <Route path="filmpage/:mvid" element={<FilmDetail />}/>
         <Route path="login" element={<Login />}/>
-        <Route path="user" element={<UserSpace />}/>
+        <Route path="userspace" element={<UserSpace />}/>
       </Routes>
     </Root>
   );

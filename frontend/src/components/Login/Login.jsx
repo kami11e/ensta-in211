@@ -39,13 +39,14 @@ const useLogin = () => {
                 //         navigate('/films', {replace:true});
                 //     }, 3000);
                 // }, []);
-                localStorage.setItem("userMail",loginParams.usermail);
-                localStorage.setItem("uid", response.data.uid);
-                localStorage.setItem("isLogin", true);
-                localStorage.setItem("name", response.data.name);
-
+                // localStorage.setItem("userMail",loginParams.usermail);
+                // localStorage.setItem("uid", response.data.uid);
+                // localStorage.setItem("isLogin", true);
+                // localStorage.setItem("name", response.data.name);
+                sessionStorage.setItem("JWTtoken", response.data.token);
+                sessionStorage.setItem("JWTrefresh", response.data.refresh);
                 console.log(response);
-                window.location.href=`/user`;
+                window.location.href=`/userspace`;
             })
             .catch((error) => {
                 setLoginError('An error occured while logging in.');
