@@ -1,12 +1,12 @@
 import { Card, Rate, Space } from 'antd';
-
+import './Movie.css';
 const { Meta } = Card;
 function Movie(movie) {
   return (
     <div key={movie.id}>
       <Card
         hoverable
-        style={{ width: 200 }}
+        style={{ width: 200, height: 450 }}
         cover={
           <img
             alt={movie.title}

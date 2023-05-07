@@ -1,0 +1,9 @@
+.ant-card-meta-title {
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
