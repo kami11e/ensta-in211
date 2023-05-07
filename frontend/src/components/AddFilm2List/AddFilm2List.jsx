@@ -38,7 +38,9 @@ const useAddMovie = () => {
         
         // setFormValues({ ...formValues, mvid: mvId });
         setAddMovieError(null);
-
+        if(sessionStorage.getItem("JWTtoken")===null){
+            window.location.href=`/login`;
+        }
         axios
             .post(`${import.meta.env.VITE_BACKDEND_URL}/mylist/new`, formValues, {
                 headers:{
@@ -70,9 +72,7 @@ function AddFilm2List({mvid}) {
         // uid: uid,
         mvid: mvid
     };
-    if(sessionStorage.getItem("JWTtoken")===null){
-        window.location.href=`/login`;
-    }
+
     // setFormValues(Values);
     useEffect(()=>{
         setFormValues(Values);

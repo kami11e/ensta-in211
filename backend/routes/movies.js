@@ -1,6 +1,8 @@
 import express from "express";
 import { appDataSource } from '../datasource.js';
 import Movie from '../entities/movie.js';
+import Comment from '../entities/usercomment.js';
+import { verifyJWT } from "../helpers/utils.js";
 
 const router = express.Router();
 
@@ -69,6 +71,40 @@ router.post('/news', function (req, res) {
       } else {
         res.status(500).json({ message: 'Error while creating the movie' });
       }
+    });
+});
+
+router.post('/comment', function (req, res) {
+  const token = req.headers.token;
+  let verifytoken;
+  try {
+    verifytoken = verifyJWT(token);
+  } catch (error) {
+    res.status(401).json({
+      message: 'Invalid token'
+    });
+    return;
+  }
+  const commentRepository = appDataSource.getRepository(Comment);
+  const newComment = commentRepository.create({
+    user:verifytoken.uid,
+    movie:req.body.mvid,
+    content:req.body.content,
+  })
+
+  if(newComment.user===null || newComment.movie ===null || newComment.content.length <10) {
+    res.status(500).json({message: 'An error occured when adding the comment.'});
+    return;
+  }
+
+  commentRepository
+    // .delete({ id: req.params.movieId })
+    .insert(newComment)
+    .then(function (newDocument) {
+      res.status(204).json({ message: 'Comment successfully submitted.', body:newDocument });
+    })
+    .catch(function (error) {
+      res.status(500).json({ message: 'Error while submitting the comment', error:error });
     });
 });
 

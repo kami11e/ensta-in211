@@ -27,7 +27,7 @@ const useSaveUser = () => {
     setUserCreationError(null);
     if (formValues.email === '') {
       console.error('Missing email, this field is required');
-
+      
       return;
     }
     if (formValues.password === '') {
