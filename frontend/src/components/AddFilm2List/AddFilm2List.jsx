@@ -1,101 +1,92 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
-
+import { Button } from 'antd';
 import axios from 'axios';
-import './AddFilm2List.css';
 
-const DEFAULT_FORM_VALUES = {
-    uid: null,
-    mvid: null,
+const checkMovieInList = (movieId) => {
+  let movieList = null;
+
+  axios
+    .get(`${import.meta.env.VITE_BACKDEND_URL}/mylist/`, {
+      headers: {
+        token: sessionStorage.getItem('JWTtoken'),
+      },
+    })
+    .then((response) => {
+      movieList = response.data.result;
+      console.log(movieId, response.data.result);
+      if (movieList === null) {
+        return null;
+      } else if (movieList.length === 0) {
+        return false;
+      } else {
+        return movieList.some((item) => item.id === movieId);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+
+      return null;
+    });
 };
-const useAddMovie = () => {
-    const [addMovieError, setAddMovieError] = useState(null);
-    const [addMovieSuccess, setAddMovieSuccess] = useState(null);
-    // const isLogin = localStorage.getItem("isLogin");
 
-    const displayAddMovieSuccessMessage = () => {
-        setAddMovieSuccess('Movie successfully added to my list.');
-        setTimeout(() => {
-            setAddMovieSuccess(null);
-        }, 3000);
-    };
-    const addMovie = (event, formValues, setFormValues) => {
-        event.preventDefault();
+const addMovieToList = (movieId) => {
+  axios
+    .post(
+      `${import.meta.env.VITE_BACKDEND_URL}/mylist/${movieId}`,
+      {},
+      {
+        headers: {
+          token: sessionStorage.getItem('JWTtoken'),
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
-        // setFormValues(Values);
-        console.log(formValues);
-        // if (!isLogin || formValues.uid === null || formValues.mvid === null) {
-        //     setAddMovieError('You are not logged in, please login first.')
-        //     // window.location.href='/login';
-        //     return;
-        // }
-        // const Values={
-        //   uid: uId,
-        //   mvid:mvId
-        // };
-        // console.log(Values);
+const deleteMovieFromList = (movieId) => {
+  axios
+    .delete(`${import.meta.env.VITE_BACKDEND_URL}/mylist/${movieId}`, {
+      headers: {
+        token: sessionStorage.getItem('JWTtoken'),
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
-        
-        // setFormValues({ ...formValues, mvid: mvId });
-        setAddMovieError(null);
-        if(sessionStorage.getItem("JWTtoken")===null){
-            window.location.href=`/login`;
-        }
-        axios
-            .post(`${import.meta.env.VITE_BACKDEND_URL}/mylist/new`, formValues, {
-                headers:{
-                    token: sessionStorage.getItem("JWTtoken"),
-                }
-            })
-            .then(() => {
-                displayAddMovieSuccessMessage();
-                setFormValues(DEFAULT_FORM_VALUES);
-            })
-            .catch((error) => {
-                setUserCreationError('An error occured while adding to the list.');
-                console.error(error);
-            });
+function AddFilm2List({ movieId }) {
+  const [movieInList, setMovieInList] = useState(null);
 
+  useEffect(() => {
+    setMovieInList(checkMovieInList(movieId));
+  }, [movieId, movieInList]);
 
-
-    };
-    return { addMovie, addMovieError, addMovieSuccess }
-
-}
-
-function AddFilm2List({mvid}) {
-    // const { mvid } = useParams();
-    // const uid = sessionStorage.getItem("uid");
-    const [formValues, setFormValues] = useState(DEFAULT_FORM_VALUES);
-    const { addMovie, addMovieError, addMovieSuccess } = useAddMovie();
-    const Values = {
-        // uid: uid,
-        mvid: mvid
-    };
-
-    // setFormValues(Values);
-    useEffect(()=>{
-        setFormValues(Values);
-    },[]);
-
-    return (
-        <div>
-            <form
-                className="add-user-form"
-                onSubmit={(event) => addMovie(event, formValues, setFormValues)}
-            >
-                <button className="add-film2list-button" type="submit">
-                    Add to my movie list
-                </button>
-            </form>
-            {addMovieError !== null && (
-                <div className="user-creation-success">{addMovieError}</div>
-            )}
-            {addMovieSuccess !== null && (
-                <div className="user-creation-error">{addMovieSuccess}</div>
-            )}
-        </div>
-    );
+  return (
+    movieInList !== null && (
+      <Button
+        onClick={() => {
+          if (movieInList) {
+            deleteMovieFromList(movieId);
+            setMovieInList(false);
+          } else {
+            addMovieToList(movieId);
+            setMovieInList(true);
+          }
+        }}
+      >
+        {movieInList ? 'Remove from my list' : 'Add to my list'}
+      </Button>
+    )
+  );
 }
 
 export default AddFilm2List;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Modal, Pagination, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import { MovieCard } from '../MovieCard/MovieCard';
+import AddFilm2List from '../AddFilm2List/AddFilm2List';
 import MovieInfo from '../MovieInfo/MovieInfo';
 
 function MoviesTable({ movieList, page, setPage }) {
@@ -9,7 +10,7 @@ function MoviesTable({ movieList, page, setPage }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   if (movieList.length === 0) {
-    return <div>loading</div>;
+    return <div></div>;
   }
 
   return (
@@ -37,9 +38,12 @@ function MoviesTable({ movieList, page, setPage }) {
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={
-          <Link to={`/filmpage/${modalMovieId}`}>
-            <Button>View Film</Button>
-          </Link>
+          <Space>
+            <Link to={`/filmpage/${modalMovieId}`}>
+              <Button>View Film</Button>
+            </Link>
+            <AddFilm2List movieId={modalMovieId} />
+          </Space>
         }
         destroyOnClose={true}
       >
