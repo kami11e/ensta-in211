@@ -8,6 +8,7 @@ import Users from './pages/Users/Users';
 import Films from './pages/Films/Films';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
 import Login from './components/Login/Login';
+import MovieInfoPage from './pages/MovieInfoPage/MovieInfoPage';
 import UserSpace from './pages/UserSpace/UserSpace';
 
 function App() {
@@ -18,10 +19,11 @@ function App() {
         <Route path="counter" element={<Counter />} />
         <Route path="users" element={<Users />} />
         <Route path="about" element={<About />} />
-        <Route path="films" element={<Films />}/>
-        <Route path="filmpage/:mvid" element={<FilmDetail />}/>
-        <Route path="login" element={<Login />}/>
-        <Route path="userspace" element={<UserSpace />}/>
+        <Route path="films" element={<Films />} />
+        <Route path="filmpage/:mvid" element={<FilmDetail />} />
+        <Route path="login" element={<Login />} />
+        <Route path="userspace" element={<UserSpace />} />
+        <Route path="movie/:movieId" element={<MovieInfoPage />} />
       </Routes>
     </Root>
   );
