@@ -1,6 +1,6 @@
 import { Card, Modal, Rate, Space } from 'antd';
 import { useState } from 'react';
-import './Movie.css';
+import './MovieCard.css';
 const { Meta } = Card;
 
 function MovieRateShow({ movie }) {
@@ -27,7 +27,7 @@ function MovieRateShow({ movie }) {
   );
 }
 
-function Movie(movie) {
+function MovieCard({ movie, onCardClick }) {
   return (
     <Card
       hoverable
@@ -38,11 +38,11 @@ function Movie(movie) {
           src={'https://image.tmdb.org/t/p/w500' + movie.poster_path}
         />
       }
-      key={movie.id}
+      onClick={onCardClick}
     >
       <Meta title={movie.title} description={movie.release_date} />
       <MovieRateShow movie={movie} />
     </Card>
   );
 }
-export { MovieRateShow, Movie };
+export { MovieRateShow, MovieCard };
