@@ -40,12 +40,17 @@ export const generateJWT = (payload) => {
 };
 
 export const verifyJWT = (payload) => {
+  if (payload === undefined) {
+    return null;
+  }
   try {
     const result = verify(payload, publicKEY, verifyOptions);
 
     return result;
   } catch (error) {
     console.log(error);
+
+    return null;
   }
 };
 
