@@ -1,39 +1,37 @@
 .page-login {
-    display: flex;
-    flex-flow: column;
-    /* flex-wrap:nowrap; */
-    align-items: center;
-    
+  display: flex;
+  flex-flow: column;
+  /* flex-wrap:nowrap; */
+  align-items: center;
 }
 .App-logo {
-    height: 60vmin;
-    pointer-events: none;
-  }
+  height: 60vmin;
+  pointer-events: none;
+}
 
 .login-row {
-    display: flex;
-    flex-flow: row;
-    flex-wrap:nowrap;
-    align-items: self-start;
-    
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  align-items: self-start;
 }
 
 .input-what {
-    display: flex;
-    flex:1;
-    /* font-size: 2em; */
-    align-items: self-start;
-    /* width: 2px; */
-    margin-right: 20px;
-    padding: 8px 0;
-    flex-shrink: 3;
+  display: flex;
+  flex: 1;
+  /* font-size: 2em; */
+  align-items: self-start;
+  /* width: 2px; */
+  margin-right: 20px;
+  padding: 8px 0;
+  flex-shrink: 3;
 }
 .input-content {
-    display: flex;
-    flex:1;
-    /* font-size: 2em; */
-    align-items: self-start;
-    /* width: 250px; */
-    padding: 8px 0;
-    flex-shrink: 3;
+  display: flex;
+  flex: 1;
+  /* font-size: 2em; */
+  align-items: self-start;
+  /* width: 250px; */
+  padding: 8px 0;
+  flex-shrink: 3;
 }

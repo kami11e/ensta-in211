@@ -1,6 +1,4 @@
 import typeorm from 'typeorm';
-import User from './user.js';
-// import { Movie } from './movie.js';
 
 const Comment = new typeorm.EntitySchema({
   name: 'Comment',
@@ -10,24 +8,23 @@ const Comment = new typeorm.EntitySchema({
       type: 'integer',
       generated: 'increment',
     },
-    content:{
-        type:String,
-        default:null,
+    content: {
+      type: String,
+      default: null,
     },
-
   },
   relations: {
     user: {
-        target: "User",
-        type: "many-to-one",
+      target: 'User',
+      type: 'many-to-one',
     },
-    movie:{
-        target: "Movie",
-        type: "many-to-one",
-    }
+    movie: {
+      target: 'Movie',
+      type: 'many-to-one',
+    },
   },
 });
 
-typeorm.TableForeignKey
+typeorm.TableForeignKey;
 
 export default Comment;

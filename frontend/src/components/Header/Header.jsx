@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
 
-
 const Header = () => {
-  const token = sessionStorage.getItem("JWTtoken");
-
+  const token = sessionStorage.getItem('JWTtoken');
 
   return (
     <div className="Header-container">
@@ -24,7 +22,8 @@ const Header = () => {
           |&nbsp;
           <Link className="Link" to="/Login">
             Login
-          </Link></div>
+          </Link>
+        </div>
       )}
       {token !== null && (
         <div>
@@ -33,16 +32,17 @@ const Header = () => {
             Personal Space
           </Link>
           &nbsp;|&nbsp;
-          <Link className="Link" onClick={() => {
-            sessionStorage.clear();
-            window.location.href = `/`;
-          }}>
+          <Link
+            className="Link"
+            onClick={() => {
+              sessionStorage.clear();
+              window.location.href = `/`;
+            }}
+          >
             Logout
           </Link>
         </div>
       )}
-
-
     </div>
   );
 };

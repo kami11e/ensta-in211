@@ -42,6 +42,7 @@ export const generateJWT = (payload) => {
 export const verifyJWT = (payload) => {
   try {
     const result = verify(payload, publicKEY, verifyOptions);
+
     return result;
   } catch (error) {
     console.log(error);

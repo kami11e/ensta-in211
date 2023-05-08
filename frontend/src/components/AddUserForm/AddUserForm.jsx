@@ -27,7 +27,7 @@ const useSaveUser = () => {
     setUserCreationError(null);
     if (formValues.email === '') {
       console.error('Missing email, this field is required');
-      
+
       return;
     }
     if (formValues.password === '') {
@@ -35,7 +35,6 @@ const useSaveUser = () => {
 
       return;
     }
-
 
     axios
       .post(`${import.meta.env.VITE_BACKDEND_URL}/users/new`, formValues)

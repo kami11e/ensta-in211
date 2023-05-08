@@ -30,8 +30,8 @@ const useAddComment = () => {
     axios
       .post(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment`, comment, {
         headers: {
-          token: sessionStorage.getItem("JWTtoken")
-        }
+          token: sessionStorage.getItem('JWTtoken'),
+        },
       })
       .then(() => {
         displayAddCommentSuccessMessage();
@@ -43,40 +43,43 @@ const useAddComment = () => {
       });
   };
   return { addComment, addCommentError, addCommentSuccess };
-}
+};
 
 function AddComment() {
   const [comment, setComments] = useState(DEFAULT_VALUES);
   const { addComment, addCommentError, addCommentSuccess } = useAddComment();
   const { mvid } = useParams();
   console.log(mvid);
-  const token = sessionStorage.getItem("JWTtoken");
-  const myplaceholder = token !== null ? "Please enter your comment" : "Please login first";
+  const token = sessionStorage.getItem('JWTtoken');
+  const myplaceholder =
+    token !== null ? 'Please enter your comment' : 'Please login first';
   return (
     <>
       {/* <label> */}
       {/* Enter Movie Name */}
       <form
-        className='add-comment-form'
-        onSubmit={(event)=>addComment(event, comment, setComments)}
+        className="add-comment-form"
+        onSubmit={(event) => addComment(event, comment, setComments)}
       >
         <div class="add-comment">
           <textarea
             placeholder={myplaceholder}
             class="input-comment"
-            style={{ width: "100%", height: 48 }}
+            style={{ width: '100%', height: 48 }}
             onChange={(event) =>
-              setComments({ ...comment, content: event.target.value, mvid:mvid })
+              setComments({
+                ...comment,
+                content: event.target.value,
+                mvid: mvid,
+              })
             }
-          >
-          </textarea>
+          ></textarea>
         </div>
-        {(token!==null) && (
+        {token !== null && (
           <button className="add-comment-button" type="submit">
-          Submit
-        </button>
+            Submit
+          </button>
         )}
-        
       </form>
 
       {/* <input
@@ -92,6 +95,5 @@ function AddComment() {
     </>
   );
 }
-
 
 export default AddComment;

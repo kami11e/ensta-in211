@@ -7,21 +7,21 @@ const MyList = new typeorm.EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: String
+      type: String,
     },
   },
   relations: {
     user: {
-        target: "User",
-        type: "many-to-one",
+      target: 'User',
+      type: 'many-to-one',
     },
-    movie:{
-        target: "Movie",
-        type: "many-to-one",
-    }
+    movie: {
+      target: 'Movie',
+      type: 'many-to-one',
+    },
   },
 });
 
-typeorm.TableForeignKey
+typeorm.TableForeignKey;
 
 export default MyList;

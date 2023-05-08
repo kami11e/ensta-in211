@@ -27,9 +27,9 @@ appDataSource
     apiRouter.get('/', (req, res) => {
       res.send('Hello from Express!');
     });
-    apiRouter.use("/movies", moviesRouter);
+    apiRouter.use('/movies', moviesRouter);
     apiRouter.use('/users', usersRouter);
-    apiRouter.use("/mylist", myListRouter);
+    apiRouter.use('/mylist', myListRouter);
 
     // Register API router
     app.use('/api', apiRouter);

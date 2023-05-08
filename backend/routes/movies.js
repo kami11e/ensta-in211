@@ -72,6 +72,7 @@ router.post('/comment', function (req, res) {
     res.status(401).json({
       message: 'Invalid token',
     });
+
     return;
   }
   const commentRepository = appDataSource.getRepository(Comment);
@@ -89,6 +90,7 @@ router.post('/comment', function (req, res) {
     res
       .status(500)
       .json({ message: 'An error occured when adding the comment.' });
+
     return;
   }
 

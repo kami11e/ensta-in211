@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Input, Menu, Modal, Pagination, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Input, Menu } from 'antd';
 import MoviesTable from '../../components/MoviesTable/MoviesTable';
-import { MovieCard } from '../../components/MovieCard/MovieCard';
-import MovieInfo from '../../components/MovieInfo/MovieInfo';
 
 const { Search } = Input;
 const API_KEY = '522d421671cf75c2cba341597d86403a';

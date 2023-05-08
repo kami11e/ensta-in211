@@ -6,25 +6,25 @@ const User = new typeorm.EntitySchema({
     id: {
       primary: true,
       type: 'integer',
-      generated: 'increment'
+      generated: 'increment',
     },
     email: {
       type: String,
       unique: true,
     },
-    name:{
-      type:String,
-      default:"momo"
+    name: {
+      type: String,
+      default: 'momo',
     },
     firstname: { type: String },
     lastname: { type: String },
-    password:{
-      type:String
+    password: {
+      type: String,
     },
-    loginStatus:{
-      type:Boolean,
+    loginStatus: {
+      type: Boolean,
       default: false,
-    }
+    },
   },
 });
 

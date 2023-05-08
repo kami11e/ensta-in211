@@ -6,19 +6,10 @@
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "import",
-    "jsx-a11y"
-  ],
+  "plugins": ["import", "jsx-a11y"],
   "rules": {
-    "curly": [
-      "error",
-      "all"
-    ],
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "curly": ["error", "all"],
+    "eqeqeq": ["error", "smart"],
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -38,16 +29,9 @@
       "error",
       {
         "groups": [
-          [
-            "external",
-            "builtin"
-          ],
+          ["external", "builtin"],
           "internal",
-          [
-            "parent",
-            "sibling",
-            "index"
-          ]
+          ["parent", "sibling", "index"]
         ]
       }
     ],
@@ -57,12 +41,7 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": [
-          "none",
-          "all",
-          "multiple",
-          "single"
-        ]
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
       }
     ],
     "padding-line-between-statements": [

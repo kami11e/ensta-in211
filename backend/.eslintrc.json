@@ -5,10 +5,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
@@ -16,14 +13,8 @@
   "rules": {
     "prettier/prettier": "error",
     "no-unreachable": "error",
-    "curly": [
-      "error",
-      "all"
-    ],
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "curly": ["error", "all"],
+    "eqeqeq": ["error", "smart"],
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -43,16 +34,9 @@
       "error",
       {
         "groups": [
-          [
-            "external",
-            "builtin"
-          ],
+          ["external", "builtin"],
           "internal",
-          [
-            "parent",
-            "sibling",
-            "index"
-          ]
+          ["parent", "sibling", "index"]
         ]
       }
     ],
@@ -62,12 +46,7 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": [
-          "none",
-          "all",
-          "multiple",
-          "single"
-        ]
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
       }
     ],
     "padding-line-between-statements": [
@@ -79,7 +58,5 @@
       }
     ]
   },
-  "plugins": [
-    "import"
-  ]
+  "plugins": ["import"]
 }
