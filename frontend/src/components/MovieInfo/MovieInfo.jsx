@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Col, Row, Typography } from 'antd';
-import { MovieRateShow } from '../Movie/Movie.jsx';
+import { MovieRateShow } from '../MovieCard/MovieCard.jsx';
 import './MovieInfo.css';
 
 const { Title, Text } = Typography;
@@ -24,12 +24,6 @@ const useFetchMovieInfo = (movieId, setMovie) => {
 };
 
 function MovieInfo({ movieId }) {
-  // const [movie, setMovie] = useState({
-  //   title: '',
-  //   poster_path: '',
-  //   genres: [0,''],
-  //   overview: '',
-  // });
   const [movie, setMovie] = useState(null);
   useFetchMovieInfo(movieId, setMovie);
 
@@ -40,7 +34,7 @@ function MovieInfo({ movieId }) {
   console.log(movie);
 
   return (
-    <Row className="movie-container" align="top">
+    <Row align="top">
       <Col span={6}>
         <img
           className="movie-poster"

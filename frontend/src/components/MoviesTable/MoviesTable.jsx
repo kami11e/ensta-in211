@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DownOutlined } from '@ant-design/icons';
-import { Col, Dropdown, Input, Menu, Pagination, Row, Space } from 'antd';
-import Movie from '../../components/Movie/Movie';
-
+import { Col, Dropdown, Input, Menu, Modal, Pagination, Space } from 'antd';
+import { MovieCard } from '../MovieCard/MovieCard';
+import MovieInfo from '../MovieInfo/MovieInfo';
+// import './MoviesTable.css'
 const { Search } = Input;
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
 const useFetchMovies = (page, movieListType, setMovieList) => {
-  // var movies = [];
-
   useEffect(() => {
     const api_url =
       `https://api.themoviedb.org/3/movie/` +
@@ -123,9 +122,9 @@ function SelectMovieListTypeMenu({ movieListType, setMovieListType }) {
 function MoviesTable() {
   const [movieList, setMovieList] = useState([]);
   const [movieListType, setMovieListType] = useState('popular');
-  // const [movieSortType, setMovieSortType] = useState('title');
-  const [queryMovieName, setQueryMovieName] = useState('');
   const [page, setPage] = useState(1);
+  const [modalMovieId, setModalMovieId] = useState(-1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   useFetchMovies(page, movieListType, setMovieList);
 
   return (
@@ -138,20 +137,37 @@ function MoviesTable() {
         size="large"
         style={{ height: '46px' }}
         placeholder="Search a movie"
-        onSearch={(value, event) => setQueryMovieName(value)}
+        // onSearch={(value, event) => setQueryMovieName(value)}
       />
-      {/* <MovieSortTypeDropdown
-        movieSortType={movieSortType}
-        setMovieSortType={setMovieSortType}
-      /> */}
-      <Space size={[8, 16]} align={'center'} wrap>
-        {movieList.length === 0
-          ? 'No film named ' + queryMovieName
-          : movieList.map((movie) => Movie(movie))}
-        {/* {MoviesLoadingError !== null && (
-          <div className="movies-loading-error">{MoviesLoadingError}</div>
-        )} */}
-      </Space>
+      <div className="space-container">
+        <Space
+          size={[8, 16]}
+          align={'center'}
+          wrap
+          style={{
+            justifyContent: 'center',
+          }}
+        >
+          {movieList.map((movie) => (
+            <MovieCard
+              movie={movie}
+              onCardClick={() => {
+                setIsModalVisible(true);
+                setModalMovieId(movie.id);
+              }}
+              key={movie.id}
+            />
+          ))}
+        </Space>
+      </div>
+      <Modal
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <MovieInfo movieId={modalMovieId} />
+      </Modal>
       <Pagination
         defaultCurrent={1}
         defaultPageSize={20}
