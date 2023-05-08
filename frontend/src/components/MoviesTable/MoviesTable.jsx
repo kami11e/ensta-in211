@@ -9,32 +9,58 @@ import MovieInfo from '../MovieInfo/MovieInfo';
 const { Search } = Input;
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
-const useFetchMovies = (page, movieListType, setMovieList) => {
+const useFetchMovies = (page, movieListType, setMovieList, isSearch) => {
   useEffect(() => {
-    const api_url =
-      `https://api.themoviedb.org/3/movie/` +
-      movieListType +
-      `?api_key=` +
-      API_KEY +
-      `&page=` +
-      page;
-    axios
-      .get(api_url)
-      .then((response) => {
-        var movies = response.data.results;
-        console.log(movies);
-        movies.forEach((movie) => {
-          if (!('release_date' in movie)) {
-            movie.release_date = '1970-01-01';
-          }
-        });
-        setMovieList(movies);
-      })
+    if (!isSearch) {
+      const api_url =
+        `https://api.themoviedb.org/3/movie/` +
+        movieListType +
+        `?api_key=` +
+        API_KEY +
+        `&page=` +
+        page;
+      axios
+        .get(api_url)
+        .then((response) => {
+          var movies = response.data.results;
+          console.log(movies);
+          movies.forEach((movie) => {
+            if (!('release_date' in movie)) {
+              movie.release_date = '1970-01-01';
+            }
+          });
+          setMovieList(movies);
+        })
 
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [page, movieListType, setMovieList]);
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [page, movieListType, setMovieList, isSearch]);
+};
+
+const useSearchMovies = (page, query, setMovieList, isSearch) => {
+  useEffect(() => {
+    if (isSearch) {
+      const api_url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&page=${page}&query=${query}`;
+      axios
+        .get(api_url)
+        .then((response) => {
+          var movies = response.data.results;
+          console.log(movies);
+          movies.forEach((movie) => {
+            if (!('release_date' in movie)) {
+              movie.release_date = '1970-01-01';
+            }
+          });
+          setMovieList(movies);
+        })
+
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [page, query, setMovieList, isSearch]);
 };
 
 const useAddMovieToDB = ({ movie }) => {
@@ -89,7 +115,11 @@ const useAddMovieToDB = ({ movie }) => {
 //   );
 // }
 
-function SelectMovieListTypeMenu({ movieListType, setMovieListType }) {
+function SelectMovieListTypeMenu({
+  movieListType,
+  setMovieListType,
+  setIsSearch,
+}) {
   const items = [
     {
       label: 'Now Playing',
@@ -112,7 +142,10 @@ function SelectMovieListTypeMenu({ movieListType, setMovieListType }) {
   return (
     <Menu
       style={{ height: '46px' }}
-      onClick={(e) => setMovieListType(e.key)}
+      onClick={(e) => {
+        setMovieListType(e.key);
+        setIsSearch(false);
+      }}
       selectedKeys={[movieListType]}
       mode="horizontal"
       items={items}
@@ -126,19 +159,26 @@ function MoviesTable() {
   const [page, setPage] = useState(1);
   const [modalMovieId, setModalMovieId] = useState(-1);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  useFetchMovies(page, movieListType, setMovieList);
+  const [query, setQuery] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
+  useFetchMovies(page, movieListType, setMovieList, isSearch);
+  useSearchMovies(page, query, setMovieList, isSearch);
 
   return (
     <div>
       <SelectMovieListTypeMenu
         movieListType={movieListType}
         setMovieListType={setMovieListType}
+        setIsSearch={setIsSearch}
       />
       <Search
         size="large"
         style={{ height: '46px' }}
         placeholder="Search a movie"
-        // onSearch={(value, event) => setQueryMovieName(value)}
+        onSearch={(value) => {
+          setQuery(value);
+          setIsSearch(true);
+        }}
       />
       <div className="space-container">
         <Space
