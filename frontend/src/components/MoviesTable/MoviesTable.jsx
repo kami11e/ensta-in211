@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DownOutlined } from '@ant-design/icons';
-import { Col, Dropdown, Input, Menu, Modal, Pagination, Space } from 'antd';
+import { Button, Input, Menu, Modal, Pagination, Space } from 'antd';
+import { Link } from 'react-router-dom';
 import { MovieCard } from '../MovieCard/MovieCard';
 import MovieInfo from '../MovieInfo/MovieInfo';
+
 // import './MoviesTable.css'
 const { Search } = Input;
 const API_KEY = '522d421671cf75c2cba341597d86403a';
@@ -163,7 +164,11 @@ function MoviesTable() {
       <Modal
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
-        footer={null}
+        footer={
+          <Link to={`/filmpage/${modalMovieId}`}>
+            <Button>View Film</Button>
+          </Link>
+        }
         destroyOnClose={true}
       >
         <MovieInfo movieId={modalMovieId} />
