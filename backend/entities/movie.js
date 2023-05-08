@@ -6,56 +6,56 @@ const Movie = new typeorm.EntitySchema({
     id: {
       primary: true,
       type: 'integer',
-      unique: true
+      unique: true,
     },
-    titre: {
+    title: {
       type: String,
-      unique:false
+      unique: false,
     },
-    langue: {
+    original_language: {
       type: String,
       default: null,
-      unique:false,
+      unique: false,
     },
-    date: { 
+    release_date: {
       type: String,
-      default: null
+      default: null,
     },
-    posterurl: { 
+    poster_path: {
       type: String,
-      default: null
+      default: null,
     },
-    backdroprul:{
-      type:String,
-      default: null
+    backdrop_path: {
+      type: String,
+      default: null,
     },
-    popularity:{
-      type:'double precision'
+    popularity: {
+      type: 'double precision',
     },
-    votes:{
+    vote_count: {
       type: 'integer',
-      default:null,
+      default: null,
     },
-    vote_avg:{
-      type:'double precision',
-      default:null
+    vote_average: {
+      type: 'double precision',
+      default: null,
     },
-    adult:{
-      type:Boolean,
-      default:null
+    adult: {
+      type: Boolean,
+      default: null,
     },
-    overview:{
-      type:String,
-      default:null
+    overview: {
+      type: String,
+      default: null,
     },
-    titre_origin:{
-      type:String,
-      default:null
+    original_title: {
+      type: String,
+      default: null,
     },
-    comment:{
-      type:String,
-      default:"",
-    }
+    comment: {
+      type: String,
+      default: '',
+    },
   },
 });
 

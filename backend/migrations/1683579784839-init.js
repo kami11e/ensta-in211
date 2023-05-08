@@ -2,24 +2,24 @@ import typeorm from "typeorm";
 
 const { MigrationInterface, QueryRunner } = typeorm;
 
-export default class CreateTables1681671767429 {
-    name = 'CreateTables1681671767429'
+export default class init1683579784839 {
+    name = 'init1683579784839'
 
     async up(queryRunner) {
         await queryRunner.query(`
             CREATE TABLE "movie" (
                 "id" integer NOT NULL,
-                "titre" character varying NOT NULL,
-                "langue" character varying,
-                "date" character varying,
-                "posterurl" character varying,
-                "backdroprul" character varying,
+                "title" character varying NOT NULL,
+                "original_language" character varying,
+                "release_date" character varying,
+                "poster_path" character varying,
+                "backdrop_path" character varying,
                 "popularity" double precision NOT NULL,
-                "votes" integer,
-                "vote_avg" double precision,
+                "vote_count" integer,
+                "vote_average" double precision,
                 "adult" boolean,
                 "overview" character varying,
-                "titre_origin" character varying,
+                "original_title" character varying,
                 "comment" character varying NOT NULL DEFAULT '',
                 CONSTRAINT "UQ_cb3bb4d61cf764dc035cbedd422" UNIQUE ("id"),
                 CONSTRAINT "PK_cb3bb4d61cf764dc035cbedd422" PRIMARY KEY ("id")
