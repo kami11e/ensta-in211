@@ -36,13 +36,21 @@ router.delete('/:movieId', function (req, res) {
 
     return;
   }
+
   appDataSource
     .getRepository(MyList)
-    .delete({
+    .findOne({
       where: {
         user: { id: verifiedtoken.uid },
         movie: { id: req.params.movieId },
       },
+    })
+    .then((item) => {
+      if (item) {
+        return appDataSource.getRepository(MyList).remove(item);
+      } else {
+        throw new Error('Item not found');
+      }
     })
     .then(function () {
       res.status(204).json({ message: 'Movie successfully deleted' });
@@ -51,6 +59,7 @@ router.delete('/:movieId', function (req, res) {
       res.status(500).json({ message: 'Error while deleting the movie' });
     });
 });
+
 
 router.post('/:movieId', function (req, res) {
   const myListRepository = appDataSource.getRepository(MyList);

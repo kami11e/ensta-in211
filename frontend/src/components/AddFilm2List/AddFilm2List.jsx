@@ -2,34 +2,39 @@ import { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import axios from 'axios';
 
-const checkMovieInList = async (movieId) => {
-  try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKDEND_URL}/mylist/`,
-      {
+const useCheckMovieInList = (movieId, setMovieInList) => {
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKDEND_URL}/mylist/`, {
         headers: {
           token: sessionStorage.getItem('JWTtoken'),
         },
-      }
-    );
+      })
+      .then((response) => {
+        const movieList = response.data.result;
+        console.log(movieId, response.data.result);
 
-    const movieList = response.data.result;
-    console.log(movieId, response.data.result);
+        if (movieList === null) {
+          setMovieInList(null);
 
-    if (movieList === null) {
-      return null;
-    } else if (movieList.length === 0) {
-      return false;
-    } else {
-      return movieList.some((item) => item.id === movieId);
-    }
-  } catch (error) {
-    console.error(error);
+          return;
+        } else if (movieList.length === 0) {
+          setMovieInList(false);
 
-    return null;
-  }
+          return;
+        } else {
+          setMovieInList(movieList.some((item) => item.id === movieId));
+
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        setMovieInList(null);
+      });
+  }, [movieId, setMovieInList]);
 };
-
 const addMovieToList = (movieId) => {
   axios
     .post(
@@ -67,14 +72,7 @@ const deleteMovieFromList = (movieId) => {
 function AddFilm2List({ movieId }) {
   const [movieInList, setMovieInList] = useState(null);
 
-  useEffect(() => {
-    const fetchMovieInList = async () => {
-      const isInList = await checkMovieInList(movieId);
-      setMovieInList(isInList);
-    };
-
-    fetchMovieInList();
-  }, [movieId]);
+  useCheckMovieInList(movieId, setMovieInList);
   console.log('movieInList:', movieInList);
 
   return (
