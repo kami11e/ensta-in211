@@ -38,25 +38,26 @@ function FilmDetail() {
   const movieId = useParams().mvid;
   useFetchMovies(movieId, setKey);
   const videoUrl = 'https://www.youtube.com/embed/' + key;
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Row align="top">
-      <Col span={6}>
-        <MovieInfo movieId={movieId} />
-        <AddComment />
-      </Col>
+    <div>
+      <Row align="top">
+        <Col span={6}>
+          <MovieInfo movieId={movieId} />
+        </Col>
 
-      <Col span={10}>
-        <iframe
-          width="1280"
-          height="720"
-          src={videoUrl}
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
-      </Col>
-    </Row>
+        <Col span={10}>
+          <iframe
+            title="video"
+            width="1280"
+            height="720"
+            src={videoUrl}
+            allowFullScreen
+          ></iframe>
+        </Col>
+      </Row>
+      <AddComment />
+    </div>
   );
 }
 
