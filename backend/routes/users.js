@@ -20,7 +20,7 @@ router.get('/userInfo', function (req, res) {
   const content = verifyJWT(req.headers.token);
   if (content === null) {
     res.status(400).json({
-      message: 'token not valid',
+      status_message: 'token not valid',
     });
 
     return;
@@ -30,7 +30,7 @@ router.get('/userInfo', function (req, res) {
     .find({ where: { id: content.uid } })
     .then((result) => {
       res.status(200).json({
-        message: 'Success',
+        status_message: 'Success',
         result: result[0],
       });
     })
@@ -56,10 +56,12 @@ router.post('/new', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `User with email "${newUser.email}" already exists`,
+          status_message: `User with email "${newUser.email}" already exists`,
         });
       } else {
-        res.status(500).json({ message: 'Error while creating the user' });
+        res
+          .status(500)
+          .json({ status_message: 'Error while creating the user' });
       }
     });
 });
@@ -74,7 +76,7 @@ router.post('/login', function (req, res) {
       if (result[0].password === req.body.password) {
         // console.log("password verified");
         const data = {
-          message: 'Authentication sucess.',
+          status_message: 'Authentication sucess.',
           uid: result[0].id,
           firstname: result[0].firstname,
           lastname: result[0].lastname,
@@ -94,7 +96,7 @@ router.post('/login', function (req, res) {
           // user: data,
           token,
           refresh: refreshtoken,
-          // message: 'login successful',
+          // status_message: 'login successful',
         });
 
         // res.status(202).json(generateJWT(data));
@@ -110,7 +112,7 @@ router.post('/login', function (req, res) {
       } else {
         // console.log("not verified");
         res.status(501).json({
-          message: 'Incorrect Password.',
+          status_message: 'Incorrect Password.',
         });
       }
     })
@@ -118,10 +120,12 @@ router.post('/login', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `User with email  already exists`,
+          status_message: `User with email  already exists`,
         });
       } else {
-        res.status(500).json({ message: 'Error while creating the user' });
+        res
+          .status(500)
+          .json({ status_message: 'Error while creating the user' });
       }
     });
 });
@@ -133,11 +137,11 @@ router.delete('/:userId', function (req, res) {
     .getRepository(User)
     .delete({ id: req.params.userId })
     .then(function () {
-      res.status(204).json({ message: 'User successfully deleted' });
+      res.status(204).json({ status_message: 'User successfully deleted' });
     })
     .catch(function (ex) {
       console.error(ex);
-      res.status(500).json({ message: 'Error while deleting the user' });
+      res.status(500).json({ status_message: 'Error while deleting the user' });
     });
 });
 

@@ -16,7 +16,9 @@ router.get('/searchID/:movieId', function (req, res) {
       res.json({ movie: movie });
     })
     .catch(function () {
-      res.status(500).json({ message: 'Error while searching the movie' });
+      res
+        .status(500)
+        .json({ status_message: 'Error while searching the movie' });
     });
 });
 
@@ -57,10 +59,12 @@ router.post('/news', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `User with id "${newMovie.id}" and titre "${newMovie.title}" already exists`,
+          status_message: `User with id "${newMovie.id}" and titre "${newMovie.title}" already exists`,
         });
       } else {
-        res.status(500).json({ message: 'Error while creating the movie' });
+        res
+          .status(500)
+          .json({ status_message: 'Error while creating the movie' });
       }
     });
 });
@@ -72,7 +76,7 @@ router.post('/comment', function (req, res) {
     verifytoken = verifyJWT(token);
   } catch (error) {
     res.status(401).json({
-      message: 'Invalid token',
+      status_message: 'Invalid token',
     });
 
     return;
@@ -91,7 +95,7 @@ router.post('/comment', function (req, res) {
   ) {
     res
       .status(500)
-      .json({ message: 'An error occured when adding the comment.' });
+      .json({ status_message: 'An error occured when adding the comment.' });
 
     return;
   }
@@ -101,14 +105,17 @@ router.post('/comment', function (req, res) {
     .insert(newComment)
     .then(function (newDocument) {
       res.status(204).json({
-        message: 'Comment successfully submitted.',
+        status_message: 'Comment successfully submitted.',
         body: newDocument,
       });
     })
     .catch(function (error) {
       res
         .status(500)
-        .json({ message: 'Error while submitting the comment', error: error });
+        .json({
+          status_message: 'Error while submitting the comment',
+          error: error,
+        });
     });
 });
 
@@ -117,10 +124,12 @@ router.delete('/:movieId', function (req, res) {
     .getRepository(Movie)
     .delete({ id: req.params.movieId })
     .then(function () {
-      res.status(204).json({ message: 'Movie successfully deleted' });
+      res.status(204).json({ status_message: 'Movie successfully deleted' });
     })
     .catch(function () {
-      res.status(500).json({ message: 'Error while deleting the movie' });
+      res
+        .status(500)
+        .json({ status_message: 'Error while deleting the movie' });
     });
 });
 

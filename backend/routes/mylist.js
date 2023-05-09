@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
   const verifiedtoken = verifyJWT(req.headers.token);
   if (verifiedtoken === null) {
     res.status(400).json({
-      message: 'token not valid',
+      status_message: 'token not valid',
     });
 
     return;
@@ -23,7 +23,9 @@ router.get('/', function (req, res) {
       res.json({ result: result.map((item) => item.movie) });
     })
     .catch(function () {
-      res.status(500).json({ message: 'no list in user ${verifiedtoken.uid}' });
+      res
+        .status(500)
+        .json({ status_message: 'no list in user ${verifiedtoken.uid}' });
     });
 });
 
@@ -31,7 +33,7 @@ router.delete('/:movieId', function (req, res) {
   const verifiedtoken = verifyJWT(req.headers.token);
   if (verifiedtoken === null) {
     res.status(400).json({
-      message: 'token not valid',
+      status_message: 'token not valid',
     });
 
     return;
@@ -53,13 +55,14 @@ router.delete('/:movieId', function (req, res) {
       }
     })
     .then(function () {
-      res.status(204).json({ message: 'Movie successfully deleted' });
+      res.status(204).json({ status_message: 'Movie successfully deleted' });
     })
     .catch(function () {
-      res.status(500).json({ message: 'Error while deleting the movie' });
+      res
+        .status(500)
+        .json({ status_message: 'Error while deleting the movie' });
     });
 });
-
 
 router.post('/:movieId', function (req, res) {
   const myListRepository = appDataSource.getRepository(MyList);
@@ -71,7 +74,7 @@ router.post('/:movieId', function (req, res) {
     verifiedtoken = verifyJWT(token);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'JWT token invalid' });
+    res.status(500).json({ status_message: 'JWT token invalid' });
 
     return;
   }
@@ -91,10 +94,12 @@ router.post('/:movieId', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `Movie with id "${newLsElem.mvid}" already added o your list`,
+          status_message: `Movie with id "${newLsElem.mvid}" already added o your list`,
         });
       } else {
-        res.status(500).json({ message: 'Error while adding movie to list' });
+        res
+          .status(500)
+          .json({ status_message: 'Error while adding movie to list' });
       }
     });
 });
