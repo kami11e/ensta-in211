@@ -31,6 +31,8 @@ router.get('/GetAll', function (req, res) {
 
 router.post('/news', function (req, res) {
   const movieRepository = appDataSource.getRepository(Movie);
+  console.log('--------------------');
+  console.log(req.body);
   const newMovie = movieRepository.create({
     id: req.body.id,
     title: req.body.title,
@@ -55,7 +57,7 @@ router.post('/news', function (req, res) {
       console.error(error);
       if (error.code === '23505') {
         res.status(400).json({
-          message: `User with id "${newMovie.mvid}" and titre "${newMovie.titre}" already exists`,
+          message: `User with id "${newMovie.id}" and titre "${newMovie.title}" already exists`,
         });
       } else {
         res.status(500).json({ message: 'Error while creating the movie' });
