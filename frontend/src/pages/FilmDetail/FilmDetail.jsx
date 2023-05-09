@@ -7,6 +7,9 @@ import AddComment from '../../components/AddComment/AddComment';
 import AddFilm2List from '../../components/AddFilm2List/AddFilm2List';
 import { MovieCard } from '../../components/MovieCard/MovieCard';
 import MovieInfo from '../../components/MovieInfo/MovieInfo';
+import { Layout, theme, Col, Row, Typography } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
+const {Title, Text} = Typography;
 const FILE_PATH = 'https://image.tmdb.org/t/p/w200';
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
@@ -43,11 +46,18 @@ function FilmDetail (){
   const movieId=useParams().mvid;
   useFetchMovies(movieId, setKey);
   const videoUrl="https://www.youtube.com/embed/"+ key;
+  const [collapsed, setCollapsed] = useState(false);
   return (
-    <div>
-      <MovieInfo movieId={movieId}/>
-      <iframe width="800" height="600" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
-    </div>
+    <Row align="top">
+      <Col span={6}>
+        <MovieInfo movieId={movieId}/>
+      </Col>
+
+      <Col span={10}>
+          <iframe width="1280" height="720" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
+      </Col>
+    </Row>
+
     )
   
 }
