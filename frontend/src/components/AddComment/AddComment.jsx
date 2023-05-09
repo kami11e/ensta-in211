@@ -61,10 +61,10 @@ function AddComment() {
         className="add-comment-form"
         onSubmit={(event) => addComment(event, comment, setComments)}
       >
-        <div class="add-comment">
+        <div className="add-comment">
           <textarea
             placeholder={myplaceholder}
-            class="input-comment"
+            className="input-comment"
             style={{ width: '100%', height: 48 }}
             onChange={(event) =>
               setComments({

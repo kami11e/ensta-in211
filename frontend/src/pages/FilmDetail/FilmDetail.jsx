@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from 'antd';
 import MovieInfo from '../../components/MovieInfo/MovieInfo';
+import AddComment from '../../components/AddComment/AddComment';
 
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
@@ -43,6 +44,7 @@ function FilmDetail() {
     <Row align="top">
       <Col span={6}>
         <MovieInfo movieId={movieId} />
+        <AddComment />
       </Col>
 
       <Col span={10}>
