@@ -123,9 +123,7 @@ router.post('/login', function (req, res) {
           status_message: `User with email  already exists`,
         });
       } else {
-        res
-          .status(500)
-          .json({ status_message: 'Error while creating the user' });
+        res.status(500).json({ status_message: 'Error while loging in' });
       }
     });
 });
