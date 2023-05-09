@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Descriptions } from 'antd';
+import { Descriptions, Modal } from 'antd';
 import './GetUserInfo.css';
 import axios from 'axios';
 
@@ -18,6 +18,10 @@ const useGetUserInfo = () => {
       })
       .catch((error) => {
         setUserInfoLoadingError('An error occured while fetching userInfo.');
+        Modal.error({
+          title: error.status_message,
+          content: error.response.data.status_message,
+        });
         console.error(error);
       });
   }, []);
@@ -35,20 +39,15 @@ function GetUserInfo() {
     return <div className="users-loading-error">{userInfoLoadingError}</div>;
   }
 
+  const userInfoItems = Object.keys(userInfo).map((key) => (
+    <Descriptions.Item label={key} key={key}>
+      {userInfo[key]}
+    </Descriptions.Item>
+  ));
+
   return (
     <Descriptions title="User Information" bordered>
-      <Descriptions.Item label="ID">{userInfo.id}</Descriptions.Item>
-      <Descriptions.Item label="Email">{userInfo.email}</Descriptions.Item>
-      <Descriptions.Item label="Name">{userInfo.name}</Descriptions.Item>
-      <Descriptions.Item label="First Name">
-        {userInfo.firstname}
-      </Descriptions.Item>
-      <Descriptions.Item label="Last Name">
-        {userInfo.lastname}
-      </Descriptions.Item>
-      <Descriptions.Item label="Password">
-        {userInfo.password}
-      </Descriptions.Item>
+      {userInfoItems}
     </Descriptions>
   );
 }
