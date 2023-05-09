@@ -14,6 +14,12 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const onFinish = (values) => {
+  if(values.remember===true){
+    localStorage.setItem("rem_user_pwd", JSON.stringify({
+      usermail: values.usermail,
+      password: values.password,
+    }));
+  }
   
   axios
     .post(`${import.meta.env.VITE_BACKDEND_URL}/users/login`, values)
