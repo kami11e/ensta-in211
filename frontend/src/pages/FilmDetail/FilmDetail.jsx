@@ -7,7 +7,7 @@ import AddComment from '../../components/AddComment/AddComment';
 import AddFilm2List from '../../components/AddFilm2List/AddFilm2List';
 import { MovieCard } from '../../components/MovieCard/MovieCard';
 import MovieInfo from '../../components/MovieInfo/MovieInfo';
-import { Layout, theme, Col, Row, Typography } from 'antd';
+import { Layout, theme, Col, Row, Typography, Modal } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const {Title, Text} = Typography;
 const FILE_PATH = 'https://image.tmdb.org/t/p/w200';
@@ -34,6 +34,10 @@ const useFetchMovies = (movieId, setKey) => {
 
         .catch((error) => {
           console.error(error);
+          Modal.error({
+            title: error.status_message,
+            content: error.response.data.status_message,
+          });
         });
     
   }, [movieId, setKey]);

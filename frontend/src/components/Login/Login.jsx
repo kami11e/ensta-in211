@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import axios from 'axios';
 import logo from './logo.svg';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 const DEFAULT_VALUES = {
   usermail: '',
   password: '',
@@ -46,6 +46,10 @@ const onFinish = (values) => {
         // setLoginError('An error occured while logging in.');
         onFinishFailed('An error occured while logging in.');
         console.error(error);
+        Modal.error({
+          title: error.message,
+          content: error.response.data.status_message,
+        });
       });
 };
 

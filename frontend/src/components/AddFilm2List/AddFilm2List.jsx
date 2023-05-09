@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import axios from 'axios';
 
 const useCheckMovieInList = (movieId, setMovieInList) => {
@@ -30,7 +30,12 @@ const useCheckMovieInList = (movieId, setMovieInList) => {
       })
       .catch((error) => {
         console.error(error);
-
+        if (error.response.data.status_message !== 'token not valid') {
+          Modal.error({
+            title: error.status_message,
+            content: error.response.data.status_message,
+          });
+        }
         setMovieInList(null);
       });
   }, [movieId, setMovieInList]);
@@ -51,6 +56,10 @@ const addMovieToList = (movieId) => {
     })
     .catch((error) => {
       console.error(error);
+      Modal.error({
+        title: error.status_message,
+        content: error.response.data.status_message,
+      });
     });
 };
 
@@ -66,6 +75,10 @@ const deleteMovieFromList = (movieId) => {
     })
     .catch((error) => {
       console.error(error);
+      Modal.error({
+        title: error.status_message,
+        content: error.response.data.status_message,
+      });
     });
 };
 

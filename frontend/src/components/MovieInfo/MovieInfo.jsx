@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Col, Row, Typography } from 'antd';
+import { Col, Modal, Row, Typography } from 'antd';
 import { MovieRateShow } from '../MovieCard/MovieCard.jsx';
 import './MovieInfo.css';
 
@@ -19,6 +19,10 @@ const useFetchMovieInfo = (movieId, setMovie) => {
 
       .catch((error) => {
         console.error(error);
+        Modal.error({
+          title: error.status_message,
+          content: error.response.data.status_message,
+        });
       });
   }, [movieId, setMovie]);
 };

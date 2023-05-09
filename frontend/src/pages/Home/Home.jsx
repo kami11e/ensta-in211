@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Input, Menu } from 'antd';
+import { Input, Menu, Modal } from 'antd';
 import MoviesTable from '../../components/MoviesTable/MoviesTable';
 
 const { Search } = Input;
@@ -31,6 +31,10 @@ const useFetchMovies = (page, movieListType, setMovieList, isSearch) => {
 
         .catch((error) => {
           console.error(error);
+          Modal.error({
+            title: error.status_message,
+            content: error.response.data.status_message,
+          });
         });
     }
   }, [page, movieListType, setMovieList, isSearch]);
@@ -55,6 +59,10 @@ const useSearchMovies = (page, query, setMovieList, isSearch) => {
 
         .catch((error) => {
           console.error(error);
+          Modal.error({
+            title: error.status_message,
+            content: error.response.data.status_message,
+          });
         });
     }
   }, [page, query, setMovieList, isSearch]);
