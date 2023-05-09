@@ -4,8 +4,10 @@ import { appDataSource } from '../datasource.js';
 import User from '../entities/user.js';
 import { generateJWT, verifyJWT } from '../helpers/utils.js';
 import MyList from '../entities/usermylist.js';
+import { genSaltSync, hashSync } from 'bcrypt';
 
 const router = express.Router();
+const saltRounds = 10;
 
 router.get('/', function (req, res) {
   appDataSource
@@ -39,12 +41,14 @@ router.get('/userInfo', function (req, res) {
 
 router.post('/new', function (req, res) {
   const userRepository = appDataSource.getRepository(User);
+  const salt = genSaltSync(saltRounds);
   const newUser = userRepository.create({
     email: req.body.email,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    password: req.body.password,
     name: req.body.name,
+    salt: salt,
+    password: hashSync(req.body.password, salt),
   });
 
   userRepository
@@ -73,7 +77,8 @@ router.post('/login', function (req, res) {
     .then(function (result) {
       // res.status(201).json(newDocument);
       console.log(result[0]);
-      if (result[0].password === req.body.password) {
+      const hash = hashSync(req.body.password, result[0].salt);
+      if (result[0].password === hash) {
         // console.log("password verified");
         const data = {
           status_message: 'Authentication sucess.',

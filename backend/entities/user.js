@@ -21,9 +21,8 @@ const User = new typeorm.EntitySchema({
     password: {
       type: String,
     },
-    loginStatus: {
-      type: Boolean,
-      default: false,
+    salt: {
+      type: String,
     },
   },
 });

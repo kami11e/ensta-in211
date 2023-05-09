@@ -30,6 +30,11 @@ const useSaveUser = () => {
 
       return;
     }
+    if (formValues.name === '') {
+      console.error('Missing user name, this field is required');
+
+      return;
+    }
     if (formValues.password === '') {
       console.error('Missing password, this field is required');
 

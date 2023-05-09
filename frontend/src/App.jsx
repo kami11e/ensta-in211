@@ -7,6 +7,7 @@ import Users from './pages/Users/Users';
 import FilmDetail from './pages/FilmDetail/FilmDetail';
 import Login from './components/Login/Login';
 import UserSpace from './pages/UserSpace/UserSpace';
+import SignUp from './components/SignUp/SignUp';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="filmpage/:mvid" element={<FilmDetail />} />
         <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="userspace" element={<UserSpace />} />
       </Routes>
     </Root>

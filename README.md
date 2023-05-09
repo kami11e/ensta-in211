@@ -24,3 +24,4 @@ openssl rsa -in private.key -outform PEM -pubout -out public.key
 npm install moment  
 npm install jsonwebtoken 
 npm install bcypt
+ <!-- npm install js-md5 -->
