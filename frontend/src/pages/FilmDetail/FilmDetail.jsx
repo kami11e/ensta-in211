@@ -5,102 +5,51 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import AddComment from '../../components/AddComment/AddComment';
 import AddFilm2List from '../../components/AddFilm2List/AddFilm2List';
+import { MovieCard } from '../../components/MovieCard/MovieCard';
+import MovieInfo from '../../components/MovieInfo/MovieInfo';
 const FILE_PATH = 'https://image.tmdb.org/t/p/w200';
+const API_KEY = '522d421671cf75c2cba341597d86403a';
 
-const useSearchFilm = (mvid) => {
-  const [film, setFilm] = useState([]);
-  const [filmSearchError, setFilmSearchError] = useState(null);
+
+
+
+const useFetchMovies = (movieId, setKey) => {
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKDEND_URL}/movies/searchID/${mvid}`)
-      .then((response) => {
-        console.log('no error');
-        console.log(response.data.movie);
-        setFilm(response.data.movie);
-      })
-      .catch((error) => {
-        console.log('error');
-        setFilmSearchError('An error occured while searching the movie.');
-        console.error(error);
-      });
-  }, [mvid]);
+   
+      const api_url =
+        `https://api.themoviedb.org/3/movie/` +
+        movieId +
+        `/videos` +
+        `?api_key=` +
+        API_KEY
+        
+      axios
+        .get(api_url)
+        .then((response) => {
+          setKey(response.data.results[0].key);
+        })
 
-  return { film, filmSearchError };
+        .catch((error) => {
+          console.error(error);
+        });
+    
+  }, [movieId, setKey]);
 };
 
-function FilmDetail() {
-  const { mvid } = useParams();
-  // const uid = localStorage.getItem("uid");
-  const { film, filmSearchError } = useSearchFilm(mvid);
 
-  const movie = film[0];
-  if (movie) {
-    return (
-      <div>
-        <h1
-          style={{ textAlign: 'center', fontFamily: 'Ink Free', fontSize: 40 }}
-        >
-          {' '}
-          {movie.titre}
-        </h1>
-        <hr
-          style={{
-            borderTop: '1px solid #fff ',
-            marginLeft: 30,
-            marginRight: 30,
-            alignItems: 'center',
-            marginTop: -10,
-          }}
-        ></hr>
-        <div className="Movie-content">
-          <div class="col-left">
-            <img className="img" src={FILE_PATH + movie.posterurl} alt="" />
-          </div>
 
-          <div class="col-right">
-            <div class="col-right-row">
-              <h1
-                class="col-right-row-title"
-                style={{ fontFamily: 'Comic Sans MS', fontSize: 26 }}
-              >
-                {' '}
-                Overview
-              </h1>
-            </div>
-            <div class="col-right-row">
-              <h3
-                class="col-right-row-content"
-                style={{
-                  marginTop: -10,
-                  fontFamily: 'Comic Sans MS',
-                  fontSize: 16,
-                }}
-              >
-                {' '}
-                {movie.overview}
-              </h3>
-            </div>
-
-            <div class="col-right-row-content">
-              <AddFilm2List mvid={mvid} class="add-film-to-list" />
-            </div>
-          </div>
-        </div>
-        <hr
-          style={{
-            borderTop: '1px solid #fff ',
-            marginLeft: 30,
-            marginRight: 30,
-            alignItems: 'center',
-            marginTop: 10,
-          }}
-        ></hr>
-        <div className="Comments">
-          <AddComment class="add-comment" />
-        </div>
-      </div>
-    );
-  }
+function FilmDetail (){
+  const [key, setKey]=useState("");
+  const movieId=useParams().mvid;
+  useFetchMovies(movieId, setKey);
+  const videoUrl="https://www.youtube.com/embed/"+ key;
+  return (
+    <div>
+      <MovieInfo movieId={movieId}/>
+      <iframe width="800" height="600" src={videoUrl} frameBorder="0" allowFullScreen></iframe>
+    </div>
+    )
+  
 }
 
 export default FilmDetail;
