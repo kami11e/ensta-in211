@@ -4,7 +4,7 @@ url=https://api.themoviedb.org/3/movie
 local_url=http://localhost:8080/api
 # page=1
 # rm input.json
-for page in {1..1}
+for page in {1..10}
 do
     curl -H "Accept: application/json" -H "Content-Type: application/json" -X GET "$url/popular?api_key=$api_key&page=$page"  >input.json
     sed -i "s/\\\\\"/'/g" input.json
@@ -17,9 +17,9 @@ do
         --data "$i" \
         http://localhost:8080/api/movies/news -:
         echo $page
-        sleep 1
+        # sleep 1
     done
-    sleep 1
+    # sleep 1
 done
 
 

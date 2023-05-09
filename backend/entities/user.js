@@ -24,6 +24,10 @@ const User = new typeorm.EntitySchema({
     salt: {
       type: String,
     },
+    role: {
+      type: String,
+      default: 'user'
+    }
   },
 });
 

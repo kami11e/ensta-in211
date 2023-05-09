@@ -86,6 +86,7 @@ router.post('/login', function (req, res) {
           firstname: result[0].firstname,
           lastname: result[0].lastname,
           name: result[0].name,
+          role: result[0].role,
         };
         const token = generateJWT(data);
         const refreshExpiry = moment()
