@@ -53,9 +53,7 @@ const SignUp = () => (
     {...layout}
     name="nest-messages"
     onFinish={onFinish}
-    style={{
-      maxWidth: 600,
-    }}
+    className='SignForm'
     validateMessages={validateMessages}
   >
     <Form.Item

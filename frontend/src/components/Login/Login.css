@@ -4,6 +4,7 @@
   /* flex-wrap:nowrap; */
   align-items: center;
 }
+
 .App-logo {
   height: 60vmin;
   pointer-events: none;
@@ -26,6 +27,7 @@
   padding: 8px 0;
   flex-shrink: 3;
 }
+
 .input-content {
   display: flex;
   flex: 1;
@@ -34,4 +36,32 @@
   /* width: 250px; */
   padding: 8px 0;
   flex-shrink: 3;
+}
+
+.LoginForm {
+  margin-top: 50px;
+  width: 100%;
+}
+
+.LoginForm .ant-form-item {
+  display: block;
+  position: relative;
+  height: 30px;
+  width: 100%;
+}
+
+.LoginForm .ant-row {
+  position: absolute;
+  left: 25%;
+  right: 35%;
+  height: 30px;
+  width: 40%;
+}
+
+.LoginForm input {
+  width: 100%;
+}
+
+.LoginForm .ant-input-password {
+  width: 100%;
 }

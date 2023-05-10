@@ -63,9 +63,7 @@ const Login = () => (
     wrapperCol={{
       span: 16,
     }}
-    style={{
-      maxWidth: 600,
-    }}
+    className='LoginForm'
     initialValues={{
       remember: true,
     }}
