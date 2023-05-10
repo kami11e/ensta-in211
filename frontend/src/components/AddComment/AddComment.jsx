@@ -1,98 +1,82 @@
-/* eslint-disable padding-line-between-statements */
-/* eslint-disable prettier/prettier */
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Button, Col, Form, Input, Modal, Rate, Row } from 'antd';
 import axios from 'axios';
-import './AddComment.css';
 import { useParams } from 'react-router-dom';
-const DEFAULT_VALUES = {
-  mvid: -1,
-  content: '',
-};
-
-const useAddComment = () => {
-  const [addCommentError, setAddCommentError] = useState(null);
-  const [addCommentSuccess, setAddCommentSuccess] = useState(null);
-  const displayAddCommentSuccessMessage = () => {
-    setAddCommentSuccess('Your comment has been submitted.');
-    setTimeout(() => {
-      setAddCommentSuccess(null);
-    }, 3000);
-  };
-  const addComment = (event, comment, setComments) => {
-    event.preventDefault();
-    setAddCommentError(null);
-    console.log(comment);
-    if (comment.content.length < 10) {
-      console.error('Your comment should have more then 10 characters.');
-      setAddCommentError('Your comment should have more then 10 characters.');
-      return;
-    }
-    axios
-      .post(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment`, comment, {
-        headers: {
-          token: sessionStorage.getItem('JWTtoken'),
-        },
-      })
-      .then(() => {
-        displayAddCommentSuccessMessage();
-        setComments(DEFAULT_VALUES);
-      })
-      .catch((error) => {
-        setAddCommentError('An error occured while adding comment.');
-        console.error(error);
-      });
-  };
-  return { addComment, addCommentError, addCommentSuccess };
-};
 
 function AddComment() {
-  const [comment, setComments] = useState(DEFAULT_VALUES);
-  const { addComment, addCommentError, addCommentSuccess } = useAddComment();
   const { mvid } = useParams();
-  console.log(mvid);
+  const [form] = Form.useForm();
+  const [value, setValue] = useState(3);
   const token = sessionStorage.getItem('JWTtoken');
   const myplaceholder =
     token !== null ? 'Please enter your comment' : 'Please login first';
-  return (
-    <>
-      {/* <label> */}
-      {/* Enter Movie Name */}
-      <form
-        className="add-comment-form"
-        onSubmit={(event) => addComment(event, comment, setComments)}
-      >
-        <div className="add-comment">
-          <textarea
-            placeholder={myplaceholder}
-            className="input-comment"
-            style={{ width: '100%', height: 48 }}
-            onChange={(event) =>
-              setComments({
-                ...comment,
-                content: event.target.value,
-                mvid: mvid,
-              })
-            }
-          ></textarea>
-        </div>
-        {token !== null && (
-          <button className="add-comment-button" type="submit">
-            Submit
-          </button>
-        )}
-      </form>
+  const onFinish = (values) => {
+    if (values.comment.length < 10) {
+      Modal.warning({
+        content: 'The comment length must be greater than 10!',
+      });
 
-      {/* <input
-          name="input-comment"
-          placeholder="Enter ..."
-          value={AddComment.AddComment}
-          onChange={(event) =>
-            setAddComments({ ...AddComment, AddComment: event.target.value })
-          }
-        /> */}
-      {/* </label> */}
-      {/* <p>{comment.comment}</p> */}
-    </>
+      return;
+    }
+    axios
+      .post(
+        `${import.meta.env.VITE_BACKDEND_URL}/movies/comment`,
+        {
+          mvid,
+          content: values.comment,
+          rank: value,
+        },
+        {
+          headers: {
+            token: sessionStorage.getItem('JWTtoken'),
+          },
+        }
+      )
+      .then(() => {
+        Modal.success({
+          content: 'Comment submitted successfully!',
+        });
+        form.resetFields();
+      })
+      .catch((error) => {
+        console.error(error);
+        Modal.error({
+          title: error.status_message,
+          content: error.response.data.status_message,
+        });
+      });
+  };
+
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Row gutter={16}>
+        <Col span={18}>
+          <Form.Item
+            name="comment"
+            rules={[{ required: true, message: 'Please input your comment!' }]}
+          >
+            <Input placeholder={myplaceholder} />
+          </Form.Item>
+        </Col>
+        <Col span={3}>
+          <Form.Item name="rate">
+            <Rate
+              value={value}
+              onChange={(newvalue) => {
+                setValue(newvalue);
+              }}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={3}>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 
