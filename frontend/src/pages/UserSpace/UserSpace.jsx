@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Modal } from 'antd';
 import GetUserInfo from '../../components/GetUserInfo/GetUserInfo';
 import MoviesTable from '../../components/MoviesTable/MoviesTable';
 
 const useGetUserMyList = () => {
   const [userMyList, setUserMyList] = useState([]);
-  const [userMyListLoadingError, setUserMyListLoadingError] = useState(null);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKDEND_URL}/mylist/`, {
@@ -18,18 +18,19 @@ const useGetUserMyList = () => {
         console.log(response.data.result);
       })
       .catch((error) => {
-        setUserMyListLoadingError(
-          'An error occured while fetching userMyList.'
-        );
+        Modal.error({
+          title: error.status_message,
+          content: error.response.data.status_message,
+        });
         console.error(error);
       });
   }, []);
 
-  return { userMyList, userMyListLoadingError };
+  return { userMyList };
 };
 
 function UserSpace() {
-  const { userMyList, userMyListLoadingError } = useGetUserMyList();
+  const { userMyList } = useGetUserMyList();
   const [page, setPage] = useState(1);
 
   return (

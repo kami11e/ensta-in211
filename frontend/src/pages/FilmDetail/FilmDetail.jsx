@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from 'antd';
 import MovieInfo from '../../components/MovieInfo/MovieInfo';
+import AddComment from '../../components/AddComment/AddComment';
 
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
@@ -37,24 +38,26 @@ function FilmDetail() {
   const movieId = useParams().mvid;
   useFetchMovies(movieId, setKey);
   const videoUrl = 'https://www.youtube.com/embed/' + key;
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Row align="top">
-      <Col span={6}>
-        <MovieInfo movieId={movieId} />
-      </Col>
+    <div>
+      <Row align="top">
+        <Col span={6}>
+          <MovieInfo movieId={movieId} />
+        </Col>
 
-      <Col span={10}>
-        <iframe
-          width="1280"
-          height="720"
-          src={videoUrl}
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
-      </Col>
-    </Row>
+        <Col span={10}>
+          <iframe
+            title="video"
+            width="1280"
+            height="720"
+            src={videoUrl}
+            allowFullScreen
+          ></iframe>
+        </Col>
+      </Row>
+      <AddComment />
+    </div>
   );
 }
 
