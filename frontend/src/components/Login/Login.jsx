@@ -14,43 +14,43 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const onFinish = (values) => {
-  if(values.remember===true){
+  if (values.remember === true) {
     localStorage.setItem("rem_user_pwd", JSON.stringify({
       usermail: values.usermail,
       password: values.password,
     }));
   }
-  
+
   axios
     .post(`${import.meta.env.VITE_BACKDEND_URL}/users/login`, values)
     .then((response) => {
       console.log('Success:', values);
-    // displayLoginSuccessMessage();
-        // setLoginParams(DEFAULT_VALUES);
-        // const navigate= useNavigate();
-        // useEffect(()=>{
-        //     setTimeout(()=>{
-        //         navigate('/films', {replace:true});
-        //     }, 3000);
-        // }, []);
-        // localStorage.setItem("userMail",loginParams.usermail);
-        // localStorage.setItem("uid", response.data.uid);
-        // localStorage.setItem("isLogin", true);
-        // localStorage.setItem("name", response.data.name);
-        sessionStorage.setItem('JWTtoken', response.data.token);
-        sessionStorage.setItem('JWTrefresh', response.data.refresh);
-        console.log(response);
-        window.location.href = `/userspace`;
-      })
-      .catch((error) => {
-        // setLoginError('An error occured while logging in.');
-        onFinishFailed('An error occured while logging in.');
-        console.error(error);
-        Modal.error({
-          title: error.message,
-          content: error.response.data.status_message,
-        });
+      // displayLoginSuccessMessage();
+      // setLoginParams(DEFAULT_VALUES);
+      // const navigate= useNavigate();
+      // useEffect(()=>{
+      //     setTimeout(()=>{
+      //         navigate('/films', {replace:true});
+      //     }, 3000);
+      // }, []);
+      // localStorage.setItem("userMail",loginParams.usermail);
+      // localStorage.setItem("uid", response.data.uid);
+      // localStorage.setItem("isLogin", true);
+      // localStorage.setItem("name", response.data.name);
+      sessionStorage.setItem('JWTtoken', response.data.token);
+      sessionStorage.setItem('JWTrefresh', response.data.refresh);
+      console.log(response);
+      window.location.href = `/userspace`;
+    })
+    .catch((error) => {
+      // setLoginError('An error occured while logging in.');
+      onFinishFailed('An error occured while logging in.');
+      console.error(error);
+      Modal.error({
+        title: error.message,
+        content: error.response.data.status_message,
       });
+    });
 };
 
 
@@ -118,6 +118,12 @@ const Login = () => (
     >
       <Button type="primary" htmlType="submit">
         Submit
+      </Button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <Button type="primary" onClick={() => {
+        window.location.href = `/signup`;
+      }}>
+        Sign Up
       </Button>
     </Form.Item>
   </Form>
