@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from 'antd';
 import MovieInfo from '../../components/MovieInfo/MovieInfo';
 import AddComment from '../../components/AddComment/AddComment';
+import CommentList from '../../components/CommentList/CommentList';
 
 const API_KEY = '522d421671cf75c2cba341597d86403a';
 
@@ -56,6 +57,7 @@ function FilmDetail() {
           ></iframe>
         </Col>
       </Row>
+      <CommentList />
       <AddComment />
     </div>
   );
