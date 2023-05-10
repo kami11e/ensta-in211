@@ -12,6 +12,7 @@ function CommentList() {
     axios
       .get(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment/${mvid}`)
       .then((response) => {
+        console.log(response);
         setComments(response.data);
       })
       .catch((error) => {
