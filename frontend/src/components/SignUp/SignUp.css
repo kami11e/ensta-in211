@@ -3,3 +3,31 @@
     justify-content: center;
     align-items: center;
 }
+
+.SignForm {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.SignForm .ant-form-item {
+    display: block;
+    position: relative;
+    height: 30px;
+    width: 100%;
+}
+
+.SignForm .ant-row {
+    position: absolute;
+    left: 25%;
+    right: 35%;
+    height: 30px;
+    width: 40%;
+}
+
+.SignForm input {
+    width: 100%;
+}
+
+.SignForm .ant-input-password {
+    width: 100%;
+}
