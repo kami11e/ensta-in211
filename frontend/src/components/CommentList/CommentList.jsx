@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { List, Rate } from 'antd';
+import { List, Modal, Rate } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -10,16 +10,16 @@ function CommentList() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment/{mvid}`, {
-        headers: {
-          token: token,
-        },
-      })
+      .get(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment/${mvid}`)
       .then((response) => {
         setComments(response.data);
       })
       .catch((error) => {
         console.error(error);
+        Modal.error({
+          title: error.message,
+          content: error.response.data.status_message,
+        });
       });
   }, [mvid, token]);
 

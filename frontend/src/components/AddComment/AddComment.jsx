@@ -41,7 +41,7 @@ function AddComment() {
       .catch((error) => {
         console.error(error);
         Modal.error({
-          title: error.status_message,
+          title: error.message,
           content: error.response.data.status_message,
         });
       });
