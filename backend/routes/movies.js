@@ -120,11 +120,11 @@ router.post('/comment', function (req, res) {
     });
 });
 
-router.get('/comment', function (req, res) {
+router.get('/comment/:movieId', function (req, res) {
   const commentRepository = appDataSource.getRepository(Comment);
   commentRepository
     // .delete({ id: req.params.movieId })
-    .find({ where: { movie: { id: req.body.mvid } }, relations: ['user'] })
+    .find({ where: { movie: { id: req.params.movieId } }, relations: ['user'] })
     .then(function (newDocument) {
       // console.log(newDocument);
       const resDocument = newDocument.map(obj=>{
