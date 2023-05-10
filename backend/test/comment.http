@@ -1,0 +1,6 @@
+GET http://localhost:8080/api/movies/comment
+content-type: application/json
+
+{
+    "mvid":640146,
+}

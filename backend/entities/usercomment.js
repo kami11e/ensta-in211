@@ -12,6 +12,10 @@ const Comment = new typeorm.EntitySchema({
       type: String,
       default: null,
     },
+    rank:{
+      type: 'integer',
+    }
+
   },
   relations: {
     user: {
