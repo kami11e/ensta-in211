@@ -6,6 +6,39 @@ import { verifyJWT } from '../helpers/utils.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /movies/searchID/{movieId}:
+ *   get:
+ *     summary: Retrieve a movie by its ID
+ *     description: Retrieve a single movie by its ID from the database.
+ *     parameters:
+ *       - in: path
+ *         name: movieId
+ *         required: true
+ *         description: Numeric ID of the movie to retrieve.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single movie
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 movie:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *       500:
+ *         description: Error while searching the movie
+ */
 router.get('/searchID/:movieId', function (req, res) {
   console.log(req.params.movieId);
   appDataSource
@@ -22,6 +55,32 @@ router.get('/searchID/:movieId', function (req, res) {
     });
 });
 
+/**
+ * @swagger
+ * /movies/GetAll:
+ *   get:
+ *     summary: Retrieve all movies
+ *     description: Retrieve a list of all movies from the database.
+ *     responses:
+ *       200:
+ *         description: A list of movies
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 movies:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ */
 router.get('/GetAll', function (req, res) {
   appDataSource
     .getRepository(Movie)
@@ -31,6 +90,97 @@ router.get('/GetAll', function (req, res) {
     });
 });
 
+/**
+ * @swagger
+ * /movies/news:
+ *   post:
+ *     summary: Creates a new movie
+ *     description: Endpoint for creating a new movie in the appDataSource repository
+ *     requestBody:
+ *       required: true
+ *       description: The movie object to be created
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: number
+ *               title:
+ *                 type: string
+ *               original_language:
+ *                 type: string
+ *               release_date:
+ *                 type: string
+ *                 format: date
+ *               poster_path:
+ *                 type: string
+ *               backdrop_path:
+ *                 type: string
+ *               popularity:
+ *                 type: number
+ *               vote_count:
+ *                 type: number
+ *               vote_average:
+ *                 type: number
+ *               adult:
+ *                 type: boolean
+ *               overview:
+ *                 type: string
+ *               original_title:
+ *                 type: string
+ *     responses:
+ *       '201':
+ *         description: Successfully created a new movie
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: number
+ *                 title:
+ *                   type: string
+ *                 original_language:
+ *                   type: string
+ *                 release_date:
+ *                   type: string
+ *                   format: date
+ *                 poster_path:
+ *                   type: string
+ *                 backdrop_path:
+ *                   type: string
+ *                 popularity:
+ *                   type: number
+ *                 vote_count:
+ *                   type: number
+ *                 vote_average:
+ *                   type: number
+ *                 adult:
+ *                   type: boolean
+ *                 overview:
+ *                   type: string
+ *                 original_title:
+ *                   type: string
+ *       '400':
+ *         description: Bad request, movie with same id and title already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_message:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error while creating the movie
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status_message:
+ *                   type: string
+ */
 router.post('/news', function (req, res) {
   const movieRepository = appDataSource.getRepository(Movie);
   console.log('--------------------');
@@ -69,6 +219,93 @@ router.post('/news', function (req, res) {
     });
 });
 
+/**
+ * @swagger
+ * /movies/comment:
+ *   post:
+ *     summary: Creates a new comment for a movie.
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         description: The authentication token.
+ *         type: string
+ *         required: true
+ *       - in: body
+ *         name: comment
+ *         description: The comment to create.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             mvid:
+ *               type: integer
+ *               description: The ID of the movie.
+ *             content:
+ *               type: string
+ *               description: The content of the comment.
+ *             rank:
+ *               type: integer
+ *               description: The rank of the comment.
+ *         required:
+ *           - mvid
+ *           - content
+ *           - rank
+ *     responses:
+ *       204:
+ *         description: Comment successfully submitted.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The success message.
+ *             body:
+ *               type: object
+ *               description: The newly created comment.
+ *               properties:
+ *                 user:
+ *                   type: integer
+ *                   description: The ID of the user who made the comment.
+ *                 movie:
+ *                   type: integer
+ *                   description: The ID of the movie the comment is about.
+ *                 content:
+ *                   type: string
+ *                   description: The content of the comment.
+ *                 rank:
+ *                   type: integer
+ *                   description: The rank of the comment.
+ *       400:
+ *         description: Invalid token or missing comment parameters.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ *       401:
+ *         description: Invalid token.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ *       500:
+ *         description: An error occurred when adding the comment or submitting the comment.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ *             error:
+ *               type: string
+ *               description: The error message.
+ */
 router.post('/comment', function (req, res) {
   const token = req.headers.token;
   let verifytoken;
@@ -86,7 +323,7 @@ router.post('/comment', function (req, res) {
     user: verifytoken.uid,
     movie: req.body.mvid,
     content: req.body.content,
-    rank: req.body.rank
+    rank: req.body.rank,
   });
 
   if (
@@ -111,15 +348,100 @@ router.post('/comment', function (req, res) {
       });
     })
     .catch(function (error) {
-      res
-        .status(500)
-        .json({
-          status_message: 'Error while submitting the comment',
-          error: error,
-        });
+      res.status(500).json({
+        status_message: 'Error while submitting the comment',
+        error: error,
+      });
     });
 });
 
+/**
+ * @swagger
+ * /movies/comment:
+ *   post:
+ *     summary: Creates a new comment for a movie.
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         description: The authentication token.
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: body
+ *         name: comment
+ *         description: The comment to create.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             mvid:
+ *               type: integer
+ *               description: The ID of the movie the comment is for.
+ *             content:
+ *               type: string
+ *               description: The content of the comment.
+ *             rank:
+ *               type: integer
+ *               description: The rank of the comment.
+ *         required:
+ *           - mvid
+ *           - content
+ *           - rank
+ *     responses:
+ *       204:
+ *         description: The comment was successfully created.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The success message.
+ *             body:
+ *               type: object
+ *               description: The newly created comment.
+ *               properties:
+ *                 user:
+ *                   type: integer
+ *                   description: The user ID of the comment author.
+ *                 movie:
+ *                   type: integer
+ *                   description: The movie ID the comment is for.
+ *                 content:
+ *                   type: string
+ *                   description: The content of the comment.
+ *                 rank:
+ *                   type: integer
+ *                   description: The rank of the comment.
+ *       400:
+ *         description: Invalid token.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ *       500:
+ *         description: An error occurred when adding the comment.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ *             error:
+ *               type: object
+ *               description: The error object.
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                 stack:
+ *                   type: string
+ *                   description: The stack trace of the error.
+ */
 router.get('/comment/:movieId', function (req, res) {
   const commentRepository = appDataSource.getRepository(Comment);
   commentRepository
@@ -127,11 +449,11 @@ router.get('/comment/:movieId', function (req, res) {
     .find({ where: { movie: { id: req.params.movieId } }, relations: ['user'] })
     .then(function (newDocument) {
       // console.log(newDocument);
-      const resDocument = newDocument.map(obj=>{
-        const {comment_id, content, rank, user} = obj;
+      const resDocument = newDocument.map((obj) => {
+        const { comment_id, content, rank, user } = obj;
         return {
-          content:content,
-          rank:rank,
+          content: content,
+          rank: rank,
           username: user.name,
         };
       });
@@ -142,14 +464,44 @@ router.get('/comment/:movieId', function (req, res) {
       });
     })
     .catch(function (error) {
-      res
-        .status(500)
-        .json({
-          status_message: 'Error while retrieving the comments',
-          error: error,
-        });
+      res.status(500).json({
+        status_message: 'Error while retrieving the comments',
+        error: error,
+      });
     });
 });
+
+/**
+ * @swagger
+ * /movies/{movieId}:
+ *   delete:
+ *     summary: Deletes a movie by ID.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - in: path
+ *         name: movieId
+ *         description: The ID of the movie to delete.
+ *         type: integer
+ *         required: true
+ *     responses:
+ *       204:
+ *         description: The movie has been successfully deleted.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The success message.
+ *       500:
+ *         description: An error occurred when deleting the movie.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status_message:
+ *               type: string
+ *               description: The error message.
+ */
 router.delete('/:movieId', function (req, res) {
   appDataSource
     .getRepository(Movie)
