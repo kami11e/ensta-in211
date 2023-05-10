@@ -25,3 +25,27 @@ npm install moment
 npm install jsonwebtoken 
 npm install bcypt
  <!-- npm install js-md5 -->
+
+
+
+ Exigence:
+ - **ETQU, sur la page d'accueil je vois une liste de 100 films ou plus triés selon un critère au choix**
+
+- **ETQU, j'ai accès à une page ou je peux manuellement ajouter des films sur mon site**
+
+- **ETQU, sur la page d'accueil je peux faire une recherche par nom sur les films**
+
+- **ETQU, sur la page d'accueil quand je clique sur un film, j'arrive sur une page dédiée qui me présente les détails du film / ETQU, sur la page d'accueil je peux directement voir les détails d'un film**
+
+- **ETQU, sur la page de détails d'un film, je peux ajouter un commentaire qui contient une note au nom d’un user**
+
+- **ETQU, sur la page d’accueil je vois une liste de films triés par nombre de likes**
+
+Bonus:
+**ETQDev je peux filtrer la liste des films via l'input de recherche**
+
+**ETQU, je vois un message me disant qu'aucun résultat n'a été trouvé si le tableau de films est vide**
+
+### ETQDev je peux faire un script pour peupler ma base de données
+
+### ETQDev je peux connecter mon front avec le backend via un formulaire d'ajout de films

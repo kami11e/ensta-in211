@@ -86,6 +86,7 @@ router.post('/comment', function (req, res) {
     user: verifytoken.uid,
     movie: req.body.mvid,
     content: req.body.content,
+    rank: req.body.rank
   });
 
   if (
@@ -119,6 +120,36 @@ router.post('/comment', function (req, res) {
     });
 });
 
+router.get('/comment', function (req, res) {
+  const commentRepository = appDataSource.getRepository(Comment);
+  commentRepository
+    // .delete({ id: req.params.movieId })
+    .find({ where: { movie: { id: req.body.mvid } }, relations: ['user'] })
+    .then(function (newDocument) {
+      // console.log(newDocument);
+      const resDocument = newDocument.map(obj=>{
+        const {comment_id, content, rank, user} = obj;
+        return {
+          content:content,
+          rank:rank,
+          username: user.name,
+        };
+      });
+      console.log(resDocument);
+      res.status(204).json({
+        status_message: 'Comments successfully retrieved.',
+        body: resDocument,
+      });
+    })
+    .catch(function (error) {
+      res
+        .status(500)
+        .json({
+          status_message: 'Error while retrieving the comments',
+          error: error,
+        });
+    });
+});
 router.delete('/:movieId', function (req, res) {
   appDataSource
     .getRepository(Movie)
