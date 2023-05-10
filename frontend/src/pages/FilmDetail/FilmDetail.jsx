@@ -43,11 +43,11 @@ function FilmDetail() {
   return (
     <div>
       <Row align="top">
-        <Col span={18}>
+        <Col span={6}>
           <MovieInfo movieId={movieId} />
         </Col>
 
-        <Col span={6}>
+        <Col span={10}>
           <iframe
             title="video"
             width="1280"
