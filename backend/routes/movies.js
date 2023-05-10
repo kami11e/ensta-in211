@@ -136,7 +136,7 @@ router.get('/comment/:movieId', function (req, res) {
         };
       });
       console.log(resDocument);
-      res.status(204).json({
+      res.status(200).json({
         status_message: 'Comments successfully retrieved.',
         body: resDocument,
       });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { List, Modal, Rate } from 'antd';
+import { Col, List, Modal, Rate, Row } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ function CommentList() {
     axios
       .get(`${import.meta.env.VITE_BACKDEND_URL}/movies/comment/${mvid}`)
       .then((response) => {
-        setComments(response.data);
+        setComments(response.data.body);
       })
       .catch((error) => {
         console.error(error);
@@ -30,15 +30,21 @@ function CommentList() {
       dataSource={comments}
       renderItem={(item) => (
         <List.Item>
-          <List.Item.Meta
-            title={item.username}
-            description={
-              <>
-                <p>{item.content}</p>
-                <Rate disabled value={item.rank} />
-              </>
-            }
-          />
+          <Row gutter={16}>
+            <Col span={21}>
+              <List.Item.Meta
+                title={item.username}
+                description={
+                  <>
+                    <p>{item.content}</p>
+                  </>
+                }
+              />
+            </Col>
+            <Col span={3}>
+              <Rate disabled value={item.rank} />
+            </Col>
+          </Row>
         </List.Item>
       )}
     />
